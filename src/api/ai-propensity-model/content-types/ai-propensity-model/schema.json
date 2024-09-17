@@ -1,0 +1,59 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ai_propensity_models",
+  "info": {
+    "singularName": "ai-propensity-model",
+    "pluralName": "ai-propensity-models",
+    "displayName": "AI Propensity Model",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "segment": {
+      "type": "string"
+    },
+    "impact": {
+      "type": "string"
+    },
+    "pic": {
+      "type": "string"
+    },
+    "ai_app_url": {
+      "type": "string"
+    },
+    "file": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "ai_model": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::ai-model.ai-model",
+      "inversedBy": "ai_propensity_models"
+    }
+  }
+}

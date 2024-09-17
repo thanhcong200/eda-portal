@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ai_generatives",
+  "info": {
+    "singularName": "ai-generative",
+    "pluralName": "ai-generatives",
+    "displayName": "AI Generative"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "short_description": {
+      "type": "text"
+    },
+    "logo": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}

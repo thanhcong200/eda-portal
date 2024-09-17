@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ai_models",
+  "info": {
+    "singularName": "ai-model",
+    "pluralName": "ai-models",
+    "displayName": "AI Model",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": "text"
+    },
+    "impact": {
+      "type": "text"
+    },
+    "metrics": {
+      "type": "json"
+    },
+    "image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "ai_propensity_models": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::ai-propensity-model.ai-propensity-model",
+      "mappedBy": "ai_model"
+    }
+  }
+}

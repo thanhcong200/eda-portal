@@ -590,6 +590,53 @@ export interface PluginContentReleasesReleaseAction
   };
 }
 
+export interface PluginI18NLocale extends Schema.CollectionType {
+  collectionName: 'i18n_locale';
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+          max: 50;
+        },
+        number
+      >;
+    code: Attribute.String & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUsersPermissionsPermission
   extends Schema.CollectionType {
   collectionName: 'up_permissions';
@@ -741,46 +788,114 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface PluginI18NLocale extends Schema.CollectionType {
-  collectionName: 'i18n_locale';
+export interface ApiAiGenerativeAiGenerative extends Schema.CollectionType {
+  collectionName: 'ai_generatives';
   info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
-    description: '';
+    singularName: 'ai-generative';
+    pluralName: 'ai-generatives';
+    displayName: 'AI Generative';
   };
   options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
+    draftAndPublish: true;
   };
   attributes: {
-    name: Attribute.String &
-      Attribute.SetMinMax<
-        {
-          min: 1;
-          max: 50;
-        },
-        number
-      >;
-    code: Attribute.String & Attribute.Unique;
+    name: Attribute.String;
+    short_description: Attribute.Text;
+    logo: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'plugin::i18n.locale',
+      'api::ai-generative.ai-generative',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'plugin::i18n.locale',
+      'api::ai-generative.ai-generative',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiAiModelAiModel extends Schema.CollectionType {
+  collectionName: 'ai_models';
+  info: {
+    singularName: 'ai-model';
+    pluralName: 'ai-models';
+    displayName: 'AI Model';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    purpose: Attribute.Text;
+    impact: Attribute.Text;
+    metrics: Attribute.JSON;
+    image: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    ai_propensity_models: Attribute.Relation<
+      'api::ai-model.ai-model',
+      'oneToMany',
+      'api::ai-propensity-model.ai-propensity-model'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::ai-model.ai-model',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::ai-model.ai-model',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiAiPropensityModelAiPropensityModel
+  extends Schema.CollectionType {
+  collectionName: 'ai_propensity_models';
+  info: {
+    singularName: 'ai-propensity-model';
+    pluralName: 'ai-propensity-models';
+    displayName: 'AI Propensity Model';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    image: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    segment: Attribute.String;
+    impact: Attribute.String;
+    pic: Attribute.String;
+    ai_app_url: Attribute.String;
+    file: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    ai_model: Attribute.Relation<
+      'api::ai-propensity-model.ai-propensity-model',
+      'manyToOne',
+      'api::ai-model.ai-model'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::ai-propensity-model.ai-propensity-model',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::ai-propensity-model.ai-propensity-model',
       'oneToOne',
       'admin::user'
     > &
@@ -802,10 +917,13 @@ declare module '@strapi/types' {
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
+      'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
+      'api::ai-generative.ai-generative': ApiAiGenerativeAiGenerative;
+      'api::ai-model.ai-model': ApiAiModelAiModel;
+      'api::ai-propensity-model.ai-propensity-model': ApiAiPropensityModelAiPropensityModel;
     }
   }
 }
