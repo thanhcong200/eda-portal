@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "jwt_tokens",
+  "info": {
+    "singularName": "jwt-token",
+    "pluralName": "jwt-tokens",
+    "displayName": "JWT Token",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "token": {
+      "type": "text"
+    },
+    "expired_at": {
+      "type": "datetime"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "access-token",
+        "refresh-token"
+      ]
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "jwt_tokens"
+    },
+    "is_delete": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

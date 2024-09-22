@@ -15,26 +15,27 @@
     "name": {
       "type": "string"
     },
-    "purpose": {
-      "type": "text"
-    },
     "impact": {
       "type": "text"
     },
-    "metrics": {
-      "type": "json"
+    "purpose": {
+      "type": "text"
     },
     "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
-    "ai_propensity_models": {
+    "metrics": {
+      "type": "json"
+    },
+    "propensities": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::ai-propensity-model.ai-propensity-model",

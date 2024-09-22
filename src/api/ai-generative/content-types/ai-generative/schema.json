@@ -4,7 +4,8 @@
   "info": {
     "singularName": "ai-generative",
     "pluralName": "ai-generatives",
-    "displayName": "AI Generative"
+    "displayName": "AI Generative",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -14,18 +15,22 @@
     "name": {
       "type": "string"
     },
-    "short_description": {
+    "short_desc": {
       "type": "text"
     },
     "logo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
+    },
+    "ref_url": {
+      "type": "string"
     }
   }
 }
