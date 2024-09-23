@@ -542,6 +542,16 @@ export interface ApiAiModelAiModel extends Struct.CollectionTypeSchema {
       'oneToMany',
       'api::ai-propensity-model.ai-propensity-model'
     >;
+    type: Schema.Attribute.Enumeration<
+      [
+        'ai-hub',
+        'bi-hub',
+        'ecosystem',
+        'data-hub',
+        'governance',
+        'strategy-innovation',
+      ]
+    >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;

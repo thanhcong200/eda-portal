@@ -22,5 +22,15 @@ module.exports = {
         auth: false,
       },
     },
+    {
+      method: "POST",
+      path: "/custom-auth/logout",
+      handler: "custom-auth.logout",
+      config: {
+        policies: [],
+        middlewares: [],
+        auth: false,
+      },
+    },
   ],
 };

@@ -40,6 +40,17 @@
       "relation": "oneToMany",
       "target": "api::ai-propensity-model.ai-propensity-model",
       "mappedBy": "ai_model"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "ai-hub",
+        "bi-hub",
+        "ecosystem",
+        "data-hub",
+        "governance",
+        "strategy-innovation"
+      ]
     }
   }
 }
