@@ -51,6 +51,9 @@
         "governance",
         "strategy-innovation"
       ]
+    },
+    "logo": {
+      "type": "string"
     }
   }
 }

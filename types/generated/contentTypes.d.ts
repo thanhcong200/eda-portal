@@ -506,6 +506,7 @@ export interface ApiAiGenerativeAiGenerative
     short_desc: Schema.Attribute.Text;
     logo: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     ref_url: Schema.Attribute.String;
+    image: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -552,6 +553,7 @@ export interface ApiAiModelAiModel extends Struct.CollectionTypeSchema {
         'strategy-innovation',
       ]
     >;
+    logo: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -588,6 +590,8 @@ export interface ApiAiPropensityModelAiPropensityModel
     ai_app_url: Schema.Attribute.String;
     icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     ai_model: Schema.Attribute.Relation<'manyToOne', 'api::ai-model.ai-model'>;
+    image: Schema.Attribute.String;
+    html_url: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
