@@ -583,15 +583,30 @@ export interface ApiAiPropensityModelAiPropensityModel
   };
   attributes: {
     name: Schema.Attribute.String;
-    segment: Schema.Attribute.Text;
+    scope: Schema.Attribute.Text;
     pdf_url: Schema.Attribute.String;
     impact: Schema.Attribute.Text;
-    pic: Schema.Attribute.String;
+    po: Schema.Attribute.String;
     ai_app_url: Schema.Attribute.String;
     icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     ai_model: Schema.Attribute.Relation<'manyToOne', 'api::ai-model.ai-model'>;
     image: Schema.Attribute.String;
     html_url: Schema.Attribute.String;
+    client: Schema.Attribute.String;
+    prosentity_status: Schema.Attribute.Enumeration<
+      [
+        'planning',
+        'design',
+        'development',
+        'testing',
+        'implementation',
+        'go-live',
+        'production',
+        'maintenance',
+        'closure',
+      ]
+    > &
+      Schema.Attribute.DefaultTo<'planning'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;

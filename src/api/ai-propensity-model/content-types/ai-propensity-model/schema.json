@@ -15,7 +15,7 @@
     "name": {
       "type": "string"
     },
-    "segment": {
+    "scope": {
       "type": "text"
     },
     "pdf_url": {
@@ -24,7 +24,7 @@
     "impact": {
       "type": "text"
     },
-    "pic": {
+    "po": {
       "type": "string"
     },
     "ai_app_url": {
@@ -52,6 +52,24 @@
     },
     "html_url": {
       "type": "string"
+    },
+    "client": {
+      "type": "string"
+    },
+    "prosentity_status": {
+      "type": "enumeration",
+      "enum": [
+        "planning",
+        "design",
+        "development",
+        "testing",
+        "implementation",
+        "go-live",
+        "production",
+        "maintenance",
+        "closure"
+      ],
+      "default": "planning"
     }
   }
 }
