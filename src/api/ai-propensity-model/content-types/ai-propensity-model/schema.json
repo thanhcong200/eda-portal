@@ -21,9 +21,6 @@
     "pdf_url": {
       "type": "string"
     },
-    "impact": {
-      "type": "text"
-    },
     "po": {
       "type": "string"
     },
@@ -56,7 +53,7 @@
     "client": {
       "type": "string"
     },
-    "prosentity_status": {
+    "prosensity_status": {
       "type": "enumeration",
       "enum": [
         "planning",
@@ -70,6 +67,9 @@
         "closure"
       ],
       "default": "planning"
+    },
+    "impact": {
+      "type": "json"
     }
   }
 }

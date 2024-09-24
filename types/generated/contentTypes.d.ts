@@ -585,7 +585,6 @@ export interface ApiAiPropensityModelAiPropensityModel
     name: Schema.Attribute.String;
     scope: Schema.Attribute.Text;
     pdf_url: Schema.Attribute.String;
-    impact: Schema.Attribute.Text;
     po: Schema.Attribute.String;
     ai_app_url: Schema.Attribute.String;
     icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
@@ -593,7 +592,7 @@ export interface ApiAiPropensityModelAiPropensityModel
     image: Schema.Attribute.String;
     html_url: Schema.Attribute.String;
     client: Schema.Attribute.String;
-    prosentity_status: Schema.Attribute.Enumeration<
+    prosensity_status: Schema.Attribute.Enumeration<
       [
         'planning',
         'design',
@@ -607,6 +606,7 @@ export interface ApiAiPropensityModelAiPropensityModel
       ]
     > &
       Schema.Attribute.DefaultTo<'planning'>;
+    impact: Schema.Attribute.JSON;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
