@@ -6,4 +6,14 @@
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
-module.exports = createCoreController('api::ai-propensity-model.ai-propensity-model');
+module.exports = createCoreController(
+  "api::ai-propensity-model.ai-propensity-model",
+  ({ strapi }) => ({
+    async findAll(ctx) {
+      const result = await strapi
+        .service("api::ai-propensity-model.ai-propensity-model")
+        .findAll(ctx);
+      ctx.send(result);
+    },
+  })
+);

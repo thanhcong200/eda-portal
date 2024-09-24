@@ -30,6 +30,28 @@ const decodeJwtToken = (token) => {
   }
 };
 
+const pagination = (totalItem, page = 1, limit = 10) => {
+  const pageCount = Math.ceil(totalItem / limit);
+  return {
+    page,
+    limit,
+    totalItem,
+    pageCount,
+    hasPreviousPage: page > 1,
+    hasNextPage: page < pageCount,
+  };
+};
+
+const parseTotal = (total) => {
+  return +Object.values(total.rows)[0].count;
+};
+
+const generateToken = (userId, expiresIn = "30m") => {
+  return jwt.sign({ id: userId, sub: userId }, envConfig.JWT_SECRET, {
+    expiresIn,
+  });
+};
+
 const verifyToken = async (token, type) => {
   const decoded = decodeJwtToken(token);
   const isExistToken = await strapi.db
@@ -38,7 +60,7 @@ const verifyToken = async (token, type) => {
       where: {
         token,
         type,
-        is_delete: false
+        is_delete: false,
       },
     });
   if (!isExistToken) throw new UnauthorizedError();
@@ -53,12 +75,14 @@ const createResponse = (data, message = "Success", status = 200) => {
   };
 };
 
-
 module.exports = {
   getCurrentTimeInHoChiMinh,
   convertToHoChiMinhTime,
   decodeJwtToken,
   verifyToken,
   createResponse,
+  pagination,
+  parseTotal,
+  generateToken,
   dayjs,
 };

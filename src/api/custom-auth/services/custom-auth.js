@@ -4,7 +4,7 @@
  * custom-auth service
  */
 const utils = require("@strapi/utils");
-const { dayjs, verifyToken, createResponse } = require("../../../common/util");
+const { dayjs, verifyToken, createResponse, generateToken } = require("../../../common/util");
 const envConfig = require("../../../../config/env-config");
 const { TokenType } = require("../../../common/constant");
 const { ApplicationError, ValidationError } = utils.errors;
@@ -82,23 +82,13 @@ module.exports = ({ strapi }) => ({
   },
 
   async renewToken(userId) {
-    const accessToken = strapi.plugins["users-permissions"].services.jwt.issue(
-      {
-        id: userId,
-        sub: userId,
-      },
-      {
-        expiresIn: envConfig.JWT_ACCESS_TOKEN_EXPIRE_TIME,
-      }
+    const accessToken = generateToken(
+      userId,
+      envConfig.JWT_ACCESS_TOKEN_EXPIRE_TIME
     );
-    const refreshToken = strapi.plugins["users-permissions"].services.jwt.issue(
-      {
-        id: userId,
-        sub: userId,
-      },
-      {
-        expiresIn: envConfig.JWT_REFRESH_TOKEN_EXPIRE_TIME,
-      }
+    const refreshToken = generateToken(
+      userId,
+      envConfig.JWT_REFRESH_TOKEN_EXPIRE_TIME
     );
     await this.destroyAllToken(userId)
     await Promise.all([
