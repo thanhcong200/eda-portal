@@ -4,6 +4,7 @@ const {
   createResponse,
   pagination,
   parseTotal,
+  parseEntries,
 } = require("../../../common/util");
 
 /**
@@ -47,7 +48,7 @@ module.exports = createCoreService(
       ]);
 
       return {
-        ...createResponse(entries.rows),
+        ...createResponse(...parseEntries(entries)),
         meta: pagination(parseTotal(total), page, limit),
       };
     },

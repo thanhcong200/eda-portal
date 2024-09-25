@@ -43,7 +43,16 @@ const pagination = (totalItem, page = 1, limit = 10) => {
 };
 
 const parseTotal = (total) => {
-  return +Object.values(total.rows)[0].count;
+  try {
+    return +Object.values(total.rows)[0].count;
+  } catch (err) {
+    return +total[0].count;
+  }
+};
+
+const parseEntries = (entries) => {
+  if (entries?.rows) return entries.rows;
+  return entries;
 };
 
 const generateToken = (userId, expiresIn = "30m") => {
@@ -84,5 +93,6 @@ module.exports = {
   pagination,
   parseTotal,
   generateToken,
+  parseEntries,
   dayjs,
 };
