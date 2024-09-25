@@ -26,10 +26,6 @@ module.exports = ({ strapi }) => ({
       });
 
     if (!user) {
-      return ctx.badRequest("Invalid email or password");
-    }
-
-    if (!user) {
       throw new ValidationError("Invalid identifier or password");
     }
 
@@ -48,7 +44,7 @@ module.exports = ({ strapi }) => ({
       "users-permissions"
     ].services.user.validatePassword(password, user.password);
     if (!validPassword) {
-      return ctx.badRequest("Invalid email or password");
+      throw new ValidationError("Invalid identifier or password");
     }
 
     // Generate a JWT token
