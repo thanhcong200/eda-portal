@@ -1,6 +1,11 @@
 "use strict";
 
-const { pagination, parseTotal, createResponse } = require("../../../common/util");
+const {
+  pagination,
+  parseTotal,
+  createResponse,
+  parseEntries,
+} = require("../../../common/util");
 
 /**
  * ai-generative service
@@ -32,7 +37,10 @@ module.exports = createCoreService(
         strapi.db.connection.raw(countQuery),
       ]);
 
-      return { ...createResponse(entries.rows), meta: pagination(parseTotal(total), page, limit) };
+      return {
+        ...createResponse(...parseEntries(entries)),
+        meta: pagination(parseTotal(total), page, limit),
+      };
     },
   })
 );
