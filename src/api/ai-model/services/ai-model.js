@@ -40,7 +40,7 @@ module.exports = createCoreService("api::ai-model.ai-model", ({ strapi }) => ({
       strapi.db.connection.raw(countQuery),
     ]);
     return {
-      ...createResponse(...parseEntries(entries)),
+      ...createResponse(parseEntries(entries)),
       meta: pagination(parseTotal(total), page, limit),
     };
   },

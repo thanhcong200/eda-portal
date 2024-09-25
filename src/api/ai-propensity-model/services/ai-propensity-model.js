@@ -37,9 +37,9 @@ module.exports = createCoreService(
                     ORDER BY ${sortField} ${sortValue}
                     LIMIT ${limit} OFFSET ${(page - 1) * limit}
         `;
-      const countQuery = `SELECT count(1) 
+      const countQuery = `SELECT count(1) as count
                             FROM ai_propensity_models p
-                        INNER JOIN ai_propensity_models_ai_model_lnk lnk ON lnk.ai_propensity_model_id = p.id AND lnk.ai_model_id = ${2}
+                        INNER JOIN ai_propensity_models_ai_model_lnk lnk ON lnk.ai_propensity_model_id = p.id AND lnk.ai_model_id = ${+aiModelId}
                         WHERE p.published_At IS NOT NULL
         `;
       const [entries, total] = await Promise.all([
@@ -48,7 +48,7 @@ module.exports = createCoreService(
       ]);
 
       return {
-        ...createResponse(...parseEntries(entries)),
+        ...createResponse(parseEntries(entries)),
         meta: pagination(parseTotal(total), page, limit),
       };
     },

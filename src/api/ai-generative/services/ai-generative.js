@@ -29,7 +29,7 @@ module.exports = createCoreService(
                     ORDER BY ${sortField} ${sortValue}
                     LIMIT ${limit} OFFSET ${(page - 1) * limit}
         `;
-      const countQuery = `SELECT count(1) FROM ai_generatives 
+      const countQuery = `SELECT count(1) as count FROM ai_generatives 
                     WHERE published_At IS NOT NULL
         `;
       const [entries, total] = await Promise.all([
@@ -38,7 +38,7 @@ module.exports = createCoreService(
       ]);
 
       return {
-        ...createResponse(...parseEntries(entries)),
+        ...createResponse(parseEntries(entries)),
         meta: pagination(parseTotal(total), page, limit),
       };
     },
