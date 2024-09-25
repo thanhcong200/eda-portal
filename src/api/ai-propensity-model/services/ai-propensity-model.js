@@ -28,19 +28,21 @@ module.exports = createCoreService(
       const query = `SELECT p.id as id, p.document_id as document_id, p.name as name, p.scope as scope,
                      p.pdf_url as pdf_url, p.po as po, p.ai_app_url as ai_app_url,
                      p.image as image, p.html_url as html_url, p.client as client, p.prosensity_status as prosensity_status,
-                     p.impact as impact,
+                     p.impact as impact, f.url as url, f.formats as icon,
                     p.updated_at as updated_at, p.created_at as created_at, p.published_at as published_at, 
                     p.locale as locale 
                     FROM ai_propensity_models p
                     INNER JOIN ai_propensity_models_ai_model_lnk lnk ON lnk.ai_propensity_model_id = p.id AND lnk.ai_model_id = ${+aiModelId}
-                    WHERE p.published_At IS NOT NULL
+                    LEFT JOIN files_related_mph fr ON fr.related_id = p.id AND fr.related_type = 'api::ai-propensity-model.ai-propensity-model'
+                    LEFT JOIN files f ON f.id = fr.file_id 
+                    WHERE p.published_at IS NOT NULL
                     ORDER BY ${sortField} ${sortValue}
                     LIMIT ${limit} OFFSET ${(page - 1) * limit}
         `;
       const countQuery = `SELECT count(1) as count
                             FROM ai_propensity_models p
                         INNER JOIN ai_propensity_models_ai_model_lnk lnk ON lnk.ai_propensity_model_id = p.id AND lnk.ai_model_id = ${+aiModelId}
-                        WHERE p.published_At IS NOT NULL
+                        WHERE p.published_at IS NOT NULL
         `;
       const [entries, total] = await Promise.all([
         strapi.db.connection.raw(query),
