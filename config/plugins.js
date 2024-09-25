@@ -5,11 +5,12 @@ module.exports = ({ env }) => ({
       providerOptions: {
         accessKeyId: env("AWS_ACCESS_KEY_ID"),
         secretAccessKey: env("AWS_ACCESS_SECRET"),
-        region: "ap-southeast-1",
+        sessionToken: env("AWS_SESSION_TOKEN"),
+        region:  env("AWS_REGION", "ap-southeast-1"),
         params: {
-          ACL: env("AWS_ACL", "public-read"),
+          ACL: env("AWS_ACL", "private"),
           signedUrlExpires: env("AWS_SIGNED_URL_EXPIRES", 15 * 60),
-          Bucket: env("AWS_BUCKET"),
+          Bucket: env("AWS_BUCKET", "eda-webportal-static-media"),
         },
       },
       actionOptions: {
