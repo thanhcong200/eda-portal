@@ -32,21 +32,27 @@ module.exports = createCoreService(
                     p.updated_at as updated_at, p.created_at as created_at, p.published_at as published_at, 
                     p.locale as locale 
                     FROM ai_propensity_models p
-                    INNER JOIN ai_propensity_models_ai_model_lnk lnk ON lnk.ai_propensity_model_id = p.id AND lnk.ai_model_id = ${+aiModelId}
-                    LEFT JOIN files_related_mph fr ON fr.related_id = p.id AND fr.related_type = 'api::ai-propensity-model.ai-propensity-model'
+                    INNER JOIN ai_propensity_models_ai_models_lnk lnk ON lnk.ai_propensity_model_id = p.id AND lnk.ai_model_id = ?
+                    LEFT JOIN files_related_mph fr ON fr.related_id = p.id AND fr.related_type = 'api::ai-propensity-model.ai-propensity-model' AND fr.field = 'icon'
                     LEFT JOIN files f ON f.id = fr.file_id 
-                    WHERE p.published_at IS NOT NULL
+                    WHERE p.published_at IS NOT NULL AND (p.name LIKE ? OR p.impact->>'summary' LIKE ?)
                     ORDER BY ${sortField} ${sortValue}
-                    LIMIT ${limit} OFFSET ${(page - 1) * limit}
+                    LIMIT ? OFFSET ?
         `;
       const countQuery = `SELECT count(1) as count
                             FROM ai_propensity_models p
-                        INNER JOIN ai_propensity_models_ai_model_lnk lnk ON lnk.ai_propensity_model_id = p.id AND lnk.ai_model_id = ${+aiModelId}
+                        INNER JOIN ai_propensity_models_ai_models_lnk lnk ON lnk.ai_propensity_model_id = p.id AND lnk.ai_model_id = ?
                         WHERE p.published_at IS NOT NULL
         `;
       const [entries, total] = await Promise.all([
-        strapi.db.connection.raw(query),
-        strapi.db.connection.raw(countQuery),
+        strapi.db.connection.raw(query, [
+          +aiModelId,
+          `%${keyword}%`,
+          `%${keyword}%`,
+          limit,
+          (page - 1) * limit,
+        ]),
+        strapi.db.connection.raw(countQuery, [+aiModelId]),
       ]);
 
       return {

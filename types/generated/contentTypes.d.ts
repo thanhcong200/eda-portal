@@ -537,12 +537,7 @@ export interface ApiAiModelAiModel extends Struct.CollectionTypeSchema {
     name: Schema.Attribute.String;
     impact: Schema.Attribute.Text;
     purpose: Schema.Attribute.Text;
-    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    metrics: Schema.Attribute.JSON;
-    propensities: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::ai-propensity-model.ai-propensity-model'
-    >;
+    cover: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     type: Schema.Attribute.Enumeration<
       [
         'ai-hub',
@@ -554,6 +549,10 @@ export interface ApiAiModelAiModel extends Struct.CollectionTypeSchema {
       ]
     >;
     logo: Schema.Attribute.String;
+    propensities: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::ai-propensity-model.ai-propensity-model'
+    >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -588,7 +587,10 @@ export interface ApiAiPropensityModelAiPropensityModel
     po: Schema.Attribute.String;
     ai_app_url: Schema.Attribute.String;
     icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    ai_model: Schema.Attribute.Relation<'manyToOne', 'api::ai-model.ai-model'>;
+    ai_models: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::ai-model.ai-model'
+    >;
     image: Schema.Attribute.String;
     html_url: Schema.Attribute.String;
     client: Schema.Attribute.String;

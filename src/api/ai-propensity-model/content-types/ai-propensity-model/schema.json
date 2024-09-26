@@ -38,9 +38,9 @@
         "audios"
       ]
     },
-    "ai_model": {
+    "ai_models": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "api::ai-model.ai-model",
       "inversedBy": "propensities"
     },

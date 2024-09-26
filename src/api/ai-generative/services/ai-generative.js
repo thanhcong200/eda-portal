@@ -29,17 +29,17 @@ module.exports = createCoreService(
                       ai.updated_at as updated_at, ai.created_at as created_at, ai.published_at as published_at, 
                       ai.locale as locale
                     FROM ai_generatives ai
-                    LEFT JOIN files_related_mph fr ON fr.related_id = ai.id AND fr.related_type = 'api::ai-generative.ai-generative'
+                    LEFT JOIN files_related_mph fr ON fr.related_id = ai.id AND fr.related_type = 'api::ai-generative.ai-generative' AND fr.field = 'logo'
                     LEFT JOIN files f ON f.id = fr.file_id 
                     WHERE ai.published_at IS NOT NULL
                     ORDER BY ${sortField} ${sortValue}
-                    LIMIT ${limit} OFFSET ${(page - 1) * limit}
+                    LIMIT ? OFFSET ?
         `;
       const countQuery = `SELECT count(1) as count FROM ai_generatives 
                     WHERE published_at IS NOT NULL
         `;
       const [entries, total] = await Promise.all([
-        strapi.db.connection.raw(query),
+        strapi.db.connection.raw(query, [limit, (page - 1) * limit]),
         strapi.db.connection.raw(countQuery),
       ]);
 

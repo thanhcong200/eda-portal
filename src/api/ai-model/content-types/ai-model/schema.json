@@ -21,7 +21,7 @@
     "purpose": {
       "type": "text"
     },
-    "image": {
+    "cover": {
       "type": "media",
       "multiple": false,
       "required": false,
@@ -31,15 +31,6 @@
         "videos",
         "audios"
       ]
-    },
-    "metrics": {
-      "type": "json"
-    },
-    "propensities": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::ai-propensity-model.ai-propensity-model",
-      "mappedBy": "ai_model"
     },
     "type": {
       "type": "enumeration",
@@ -54,6 +45,12 @@
     },
     "logo": {
       "type": "string"
+    },
+    "propensities": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::ai-propensity-model.ai-propensity-model",
+      "mappedBy": "ai_models"
     }
   }
 }
