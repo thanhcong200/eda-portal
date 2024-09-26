@@ -3,9 +3,9 @@ module.exports = ({ env }) => ({
     config: {
       provider: "@strapi/provider-upload-aws-s3",
       providerOptions: {
-        accessKeyId: env("AWS_ACCESS_KEY_ID"),
-        secretAccessKey: env("AWS_ACCESS_SECRET"),
-        sessionToken: env("AWS_SESSION_TOKEN"),
+        // accessKeyId: env("AWS_ACCESS_KEY_ID"),
+        // secretAccessKey: env("AWS_ACCESS_SECRET"),
+        // sessionToken: env("AWS_SESSION_TOKEN"),
         region:  env("AWS_REGION", "ap-southeast-1"),
         params: {
           ACL: env("AWS_ACL", "private"),
