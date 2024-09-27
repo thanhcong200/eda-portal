@@ -58,7 +58,6 @@
       "enum": [
         "development",
         "pilot",
-        "go-live",
         "production"
       ],
       "default": "development"
