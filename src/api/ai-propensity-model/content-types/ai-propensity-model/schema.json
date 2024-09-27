@@ -56,17 +56,11 @@
     "prosensity_status": {
       "type": "enumeration",
       "enum": [
-        "planning",
-        "design",
         "development",
-        "testing",
-        "implementation",
-        "go-live",
-        "production",
-        "maintenance",
-        "closure"
+        "pilot",
+        "production"
       ],
-      "default": "planning"
+      "default": "development"
     },
     "impact": {
       "type": "json"

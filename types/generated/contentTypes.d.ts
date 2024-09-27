@@ -585,7 +585,6 @@ export interface ApiAiPropensityModelAiPropensityModel
     scope: Schema.Attribute.Text;
     pdf_url: Schema.Attribute.String;
     po: Schema.Attribute.String;
-    ai_app_url: Schema.Attribute.String;
     icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     ai_models: Schema.Attribute.Relation<
       'manyToMany',
@@ -595,19 +594,9 @@ export interface ApiAiPropensityModelAiPropensityModel
     html_url: Schema.Attribute.String;
     client: Schema.Attribute.String;
     prosensity_status: Schema.Attribute.Enumeration<
-      [
-        'planning',
-        'design',
-        'development',
-        'testing',
-        'implementation',
-        'go-live',
-        'production',
-        'maintenance',
-        'closure',
-      ]
+      ['development', 'pilot', 'go-live', 'production']
     > &
-      Schema.Attribute.DefaultTo<'planning'>;
+      Schema.Attribute.DefaultTo<'development'>;
     impact: Schema.Attribute.JSON;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
