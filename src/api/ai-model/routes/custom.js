@@ -10,5 +10,13 @@ module.exports = {
         middlewares: [authUser],
       },
     },
+    {
+      method: "GET",
+      path: "/ai-model/:id",
+      handler: "ai-model.findOneById",
+      config: {
+        middlewares: [authUser],
+      },
+    },
   ],
 };

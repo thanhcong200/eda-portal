@@ -15,5 +15,11 @@ module.exports = createCoreController(
         .findAll(ctx);
       ctx.send(result);
     },
+    async findOneById(ctx) {
+      const result = await strapi
+        .service("api::ai-model.ai-model")
+        .findOneById(ctx);
+      ctx.send(result);
+    },
   })
 );

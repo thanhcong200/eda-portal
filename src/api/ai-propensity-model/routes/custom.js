@@ -10,5 +10,13 @@ module.exports = {
         middlewares: [authUser],
       },
     },
+    {
+      method: "GET",
+      path: "/ai-propensity-model/:id",
+      handler: "ai-propensity-model.findOneById",
+      config: {
+        middlewares: [authUser],
+      },
+    },
   ],
 };
