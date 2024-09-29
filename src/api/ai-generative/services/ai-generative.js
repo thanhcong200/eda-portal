@@ -18,6 +18,7 @@ module.exports = createCoreService(
   ({ strapi }) => ({
     async findAll(ctx) {
       const {
+        keyword = "",
         sortField = "created_at",
         sortValue = "DESC",
         page = 1,
@@ -31,16 +32,25 @@ module.exports = createCoreService(
                     FROM ai_generatives ai
                     LEFT JOIN files_related_mph fr ON fr.related_id = ai.id AND fr.related_type = 'api::ai-generative.ai-generative' AND fr.field = 'logo'
                     LEFT JOIN files f ON f.id = fr.file_id 
-                    WHERE ai.published_at IS NOT NULL
+                    WHERE ai.published_at IS NOT NULL AND (LOWER(ai.name) LIKE ? OR LOWER(ai.short_desc) LIKE ?)
                     ORDER BY ${sortField} ${sortValue}
                     LIMIT ? OFFSET ?
         `;
       const countQuery = `SELECT count(1) as count FROM ai_generatives 
-                    WHERE published_at IS NOT NULL
+                    WHERE published_at IS NOT NULL AND (LOWER(name) LIKE ? OR LOWER(short_desc) LIKE ?)
         `;
       const [entries, total] = await Promise.all([
-        strapi.db.connection.raw(query, [limit, (page - 1) * limit]),
-        strapi.db.connection.raw(countQuery),
+        strapi.db.connection.raw(query, [
+          `%${keyword.toLowerCase()}%`,
+          `%${keyword.toLowerCase()}%`,
+          limit,
+          (page - 1) * limit,
+        ]),
+
+        strapi.db.connection.raw(countQuery, [
+          `%${keyword.toLowerCase()}%`,
+          `%${keyword.toLowerCase()}%`,
+        ]),
       ]);
 
       return {

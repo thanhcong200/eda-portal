@@ -35,23 +35,28 @@ module.exports = createCoreService("api::ai-model.ai-model", ({ strapi }) => ({
                     LEFT JOIN files_related_mph fr ON fr.related_id = ai.id AND fr.related_type = 'api::ai-model.ai-model' AND fr.field = 'cover'
                     LEFT JOIN files f ON f.id = fr.file_id 
                     WHERE ai.published_at IS NOT NULL AND ai.type = ? 
-                    AND (ai.name LIKE ? OR ai.impact LIKE ? OR ai.purpose LIKE ?)
+                    AND (LOWER(ai.name) LIKE ? OR LOWER(ai.impact) LIKE ? OR LOWER(ai.purpose) LIKE ?)
                     ORDER BY ${sortField} ${sortValue}
                     LIMIT ? OFFSET ?
         `;
     const countQuery = `SELECT count(1) as count FROM ai_models 
-                    WHERE published_at IS NOT NULL AND type = ?
+                    WHERE published_at IS NOT NULL AND type = ? AND (LOWER(name) LIKE ? OR LOWER(impact) LIKE ? OR LOWER(purpose) LIKE ?)
         `;
     const [entries, total] = await Promise.all([
       strapi.db.connection.raw(query, [
         type,
-        `%${keyword}%`,
-        `%${keyword}%`,
-        `%${keyword}%`,
+        `%${keyword.toLowerCase()}%`,
+        `%${keyword.toLowerCase()}%`,
+        `%${keyword.toLowerCase()}%`,
         limit,
         (page - 1) * limit,
       ]),
-      strapi.db.connection.raw(countQuery, [type]),
+      strapi.db.connection.raw(countQuery, [
+        type,
+        `%${keyword.toLowerCase()}%`,
+        `%${keyword.toLowerCase()}%`,
+        `%${keyword.toLowerCase()}%`,
+      ]),
     ]);
     return {
       ...createResponse(parseEntries(entries)),
