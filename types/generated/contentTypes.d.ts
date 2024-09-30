@@ -502,10 +502,11 @@ export interface ApiAiGenerativeAiGenerative
     draftAndPublish: true;
   };
   attributes: {
-    name: Schema.Attribute.String;
-    short_desc: Schema.Attribute.Text;
-    logo: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    ref_url: Schema.Attribute.String;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    short_desc: Schema.Attribute.Text & Schema.Attribute.Required;
+    logo: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'> &
+      Schema.Attribute.Required;
+    ref_url: Schema.Attribute.String & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -533,10 +534,11 @@ export interface ApiAiModelAiModel extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    name: Schema.Attribute.String;
-    impact: Schema.Attribute.Text;
-    purpose: Schema.Attribute.Text;
-    cover: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    impact: Schema.Attribute.Text & Schema.Attribute.Required;
+    purpose: Schema.Attribute.Text & Schema.Attribute.Required;
+    cover: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'> &
+      Schema.Attribute.Required;
     type: Schema.Attribute.Enumeration<
       [
         'ai-hub',
@@ -546,7 +548,8 @@ export interface ApiAiModelAiModel extends Struct.CollectionTypeSchema {
         'governance',
         'strategy-innovation',
       ]
-    >;
+    > &
+      Schema.Attribute.Required;
     propensities: Schema.Attribute.Relation<
       'manyToMany',
       'api::ai-propensity-model.ai-propensity-model'
@@ -579,23 +582,23 @@ export interface ApiAiPropensityModelAiPropensityModel
     draftAndPublish: true;
   };
   attributes: {
-    name: Schema.Attribute.String;
-    scope: Schema.Attribute.Text;
-    pdf_url: Schema.Attribute.String;
-    po: Schema.Attribute.String;
-    ai_app_url: Schema.Attribute.String;
-    icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    scope: Schema.Attribute.Text & Schema.Attribute.Required;
+    po: Schema.Attribute.String & Schema.Attribute.Required;
+    icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'> &
+      Schema.Attribute.Required;
     ai_models: Schema.Attribute.Relation<
       'manyToMany',
       'api::ai-model.ai-model'
     >;
     html_url: Schema.Attribute.String;
-    client: Schema.Attribute.String;
+    bu: Schema.Attribute.String & Schema.Attribute.Required;
     prosensity_status: Schema.Attribute.Enumeration<
       ['development', 'pilot', 'production']
     > &
       Schema.Attribute.DefaultTo<'development'>;
     impact: Schema.Attribute.JSON;
+    pdf: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;

@@ -13,18 +13,21 @@
   "pluginOptions": {},
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "impact": {
-      "type": "text"
+      "type": "text",
+      "required": true
     },
     "purpose": {
-      "type": "text"
+      "type": "text",
+      "required": true
     },
     "cover": {
       "type": "media",
       "multiple": false,
-      "required": false,
+      "required": true,
       "allowedTypes": [
         "images",
         "files",
@@ -41,7 +44,8 @@
         "data-hub",
         "governance",
         "strategy-innovation"
-      ]
+      ],
+      "required": true
     },
     "propensities": {
       "type": "relation",

@@ -66,7 +66,7 @@ module.exports = createCoreService("api::ai-model.ai-model", ({ strapi }) => ({
   async findOneById(ctx) {
     const { id } = ctx.params;
     const query = `SELECT ai.id as id, ai.document_id as document_id, ai.name as name, ai.impact as impact, 
-                      ai.purpose as purpose, ai.type as type, ai.logo as logo,
+                      ai.purpose as purpose, ai.type as type,
                       f.url as url, f.formats as image,
                       ai.updated_at as updated_at, ai.created_at as created_at, ai.published_at as published_at, 
                       ai.locale as locale 
