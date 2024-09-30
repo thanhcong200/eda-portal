@@ -35,18 +35,19 @@ module.exports = createCoreService(
                     INNER JOIN ai_propensity_models_ai_models_lnk lnk ON lnk.ai_propensity_model_id = p.id AND lnk.ai_model_id = ?
                     LEFT JOIN files_related_mph fr ON fr.related_id = p.id AND fr.related_type = 'api::ai-propensity-model.ai-propensity-model' AND fr.field = 'icon'
                     LEFT JOIN files f ON f.id = fr.file_id 
-                    WHERE p.published_at IS NOT NULL AND (LOWER(p.name) LIKE ? OR LOWER(p.impact->>'summary') LIKE ?)
+                    WHERE p.published_at IS NOT NULL AND (LOWER(p.name) LIKE ? OR LOWER(p.client) LIKE ? OR LOWER(p.scope) LIKE ?)
                     ORDER BY ${sortField} ${sortValue}
                     LIMIT ? OFFSET ?
         `;
       const countQuery = `SELECT count(1) as count
                             FROM ai_propensity_models p
                         INNER JOIN ai_propensity_models_ai_models_lnk lnk ON lnk.ai_propensity_model_id = p.id AND lnk.ai_model_id = ?
-                        WHERE p.published_at IS NOT NULL AND (LOWER(p.name) LIKE ? OR LOWER(p.impact->>'summary') LIKE ?)
+                        WHERE p.published_at IS NOT NULL AND (LOWER(p.name) LIKE ? OR LOWER(p.client) LIKE ? OR LOWER(p.scope) LIKE ?)
         `;
       const [entries, total] = await Promise.all([
         strapi.db.connection.raw(query, [
           +aiModelId,
+          `%${keyword.toLowerCase()}%`,
           `%${keyword.toLowerCase()}%`,
           `%${keyword.toLowerCase()}%`,
           limit,
@@ -54,6 +55,7 @@ module.exports = createCoreService(
         ]),
         strapi.db.connection.raw(countQuery, [
           +aiModelId,
+          `%${keyword.toLowerCase()}%`,
           `%${keyword.toLowerCase()}%`,
           `%${keyword.toLowerCase()}%`,
         ]),
