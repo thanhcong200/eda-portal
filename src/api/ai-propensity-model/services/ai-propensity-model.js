@@ -27,7 +27,7 @@ module.exports = createCoreService(
       const { aiModelId } = ctx.params;
       const query = `SELECT p.id as id, p.document_id as document_id, p.name as name, p.scope as scope,
                      p.pdf_url as pdf_url, p.po as po, p.ai_app_url as ai_app_url,
-                     p.image as image, p.html_url as html_url, p.client as client, p.prosensity_status as prosensity_status,
+                     p.html_url as html_url, p.client as client, p.prosensity_status as prosensity_status,
                      p.impact as impact, f.url as url, f.formats as icon,
                     p.updated_at as updated_at, p.created_at as created_at, p.published_at as published_at, 
                     p.locale as locale 

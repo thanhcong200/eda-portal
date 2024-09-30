@@ -43,9 +43,6 @@
         "strategy-innovation"
       ]
     },
-    "logo": {
-      "type": "string"
-    },
     "propensities": {
       "type": "relation",
       "relation": "manyToMany",

@@ -25,7 +25,7 @@ module.exports = createCoreService(
         limit = 10,
       } = ctx.request.query;
       const query = `SELECT ai.id as id, ai.document_id as document_id, ai.name as name, 
-                      ai.short_desc as short_desc, ai.ref_url as ref_url, ai.image as image, 
+                      ai.short_desc as short_desc, ai.ref_url as ref_url, 
                       f.url as url, f.formats as logo,
                       ai.updated_at as updated_at, ai.created_at as created_at, ai.published_at as published_at, 
                       ai.locale as locale

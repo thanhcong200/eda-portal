@@ -1,165 +1,5 @@
 import type { Struct, Schema } from '@strapi/strapi';
 
-export interface ApiAiGenerativeAiGenerative
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'ai_generatives';
-  info: {
-    singularName: 'ai-generative';
-    pluralName: 'ai-generatives';
-    displayName: 'AI Generative';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Schema.Attribute.String;
-    short_desc: Schema.Attribute.Text;
-    logo: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    ref_url: Schema.Attribute.String;
-    image: Schema.Attribute.String;
-    createdAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    publishedAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::ai-generative.ai-generative'
-    >;
-  };
-}
-
-export interface ApiAiModelAiModel extends Struct.CollectionTypeSchema {
-  collectionName: 'ai_models';
-  info: {
-    singularName: 'ai-model';
-    pluralName: 'ai-models';
-    displayName: 'AI Model';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Schema.Attribute.String;
-    impact: Schema.Attribute.Text;
-    purpose: Schema.Attribute.Text;
-    cover: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    type: Schema.Attribute.Enumeration<
-      [
-        'ai-hub',
-        'bi-hub',
-        'ecosystem',
-        'data-hub',
-        'governance',
-        'strategy-innovation',
-      ]
-    >;
-    logo: Schema.Attribute.String;
-    propensities: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::ai-propensity-model.ai-propensity-model'
-    >;
-    createdAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    publishedAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::ai-model.ai-model'
-    >;
-  };
-}
-
-export interface ApiAiPropensityModelAiPropensityModel
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'ai_propensity_models';
-  info: {
-    singularName: 'ai-propensity-model';
-    pluralName: 'ai-propensity-models';
-    displayName: 'AI Propensity Model';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Schema.Attribute.String;
-    scope: Schema.Attribute.Text;
-    pdf_url: Schema.Attribute.String;
-    po: Schema.Attribute.String;
-    ai_app_url: Schema.Attribute.String;
-    icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    ai_models: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::ai-model.ai-model'
-    >;
-    image: Schema.Attribute.String;
-    html_url: Schema.Attribute.String;
-    client: Schema.Attribute.String;
-    prosensity_status: Schema.Attribute.Enumeration<
-      ['development', 'pilot', 'production']
-    > &
-      Schema.Attribute.DefaultTo<'development'>;
-    impact: Schema.Attribute.JSON;
-    createdAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    publishedAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::ai-propensity-model.ai-propensity-model'
-    >;
-  };
-}
-
-export interface ApiCustomAuthJwtToken extends Struct.CollectionTypeSchema {
-  collectionName: 'jwt_tokens';
-  info: {
-    singularName: 'jwt-token';
-    pluralName: 'jwt-tokens';
-    displayName: 'JWT Token';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    token: Schema.Attribute.Text;
-    expired_at: Schema.Attribute.DateTime;
-    type: Schema.Attribute.Enumeration<['access-token', 'refresh-token']>;
-    user: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-    is_delete: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    createdAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    publishedAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::custom-auth.jwt-token'
-    >;
-  };
-}
-
 export interface PluginUploadFile extends Struct.CollectionTypeSchema {
   collectionName: 'files';
   info: {
@@ -649,6 +489,163 @@ export interface PluginUsersPermissionsUser
   };
 }
 
+export interface ApiAiGenerativeAiGenerative
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'ai_generatives';
+  info: {
+    singularName: 'ai-generative';
+    pluralName: 'ai-generatives';
+    displayName: 'AI Generative';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Schema.Attribute.String;
+    short_desc: Schema.Attribute.Text;
+    logo: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    ref_url: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::ai-generative.ai-generative'
+    >;
+  };
+}
+
+export interface ApiAiModelAiModel extends Struct.CollectionTypeSchema {
+  collectionName: 'ai_models';
+  info: {
+    singularName: 'ai-model';
+    pluralName: 'ai-models';
+    displayName: 'AI Model';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Schema.Attribute.String;
+    impact: Schema.Attribute.Text;
+    purpose: Schema.Attribute.Text;
+    cover: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    type: Schema.Attribute.Enumeration<
+      [
+        'ai-hub',
+        'bi-hub',
+        'ecosystem',
+        'data-hub',
+        'governance',
+        'strategy-innovation',
+      ]
+    >;
+    propensities: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::ai-propensity-model.ai-propensity-model'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::ai-model.ai-model'
+    >;
+  };
+}
+
+export interface ApiAiPropensityModelAiPropensityModel
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'ai_propensity_models';
+  info: {
+    singularName: 'ai-propensity-model';
+    pluralName: 'ai-propensity-models';
+    displayName: 'AI Propensity Model';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Schema.Attribute.String;
+    scope: Schema.Attribute.Text;
+    pdf_url: Schema.Attribute.String;
+    po: Schema.Attribute.String;
+    ai_app_url: Schema.Attribute.String;
+    icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    ai_models: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::ai-model.ai-model'
+    >;
+    html_url: Schema.Attribute.String;
+    client: Schema.Attribute.String;
+    prosensity_status: Schema.Attribute.Enumeration<
+      ['development', 'pilot', 'production']
+    > &
+      Schema.Attribute.DefaultTo<'development'>;
+    impact: Schema.Attribute.JSON;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::ai-propensity-model.ai-propensity-model'
+    >;
+  };
+}
+
+export interface ApiCustomAuthJwtToken extends Struct.CollectionTypeSchema {
+  collectionName: 'jwt_tokens';
+  info: {
+    singularName: 'jwt-token';
+    pluralName: 'jwt-tokens';
+    displayName: 'JWT Token';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    token: Schema.Attribute.Text;
+    expired_at: Schema.Attribute.DateTime;
+    type: Schema.Attribute.Enumeration<['access-token', 'refresh-token']>;
+    user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    is_delete: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::custom-auth.jwt-token'
+    >;
+  };
+}
+
 export interface AdminPermission extends Struct.CollectionTypeSchema {
   collectionName: 'admin_permissions';
   info: {
@@ -1014,10 +1011,6 @@ export interface AdminTransferTokenPermission
 declare module '@strapi/strapi' {
   export module Public {
     export interface ContentTypeSchemas {
-      'api::ai-generative.ai-generative': ApiAiGenerativeAiGenerative;
-      'api::ai-model.ai-model': ApiAiModelAiModel;
-      'api::ai-propensity-model.ai-propensity-model': ApiAiPropensityModelAiPropensityModel;
-      'api::custom-auth.jwt-token': ApiCustomAuthJwtToken;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::i18n.locale': PluginI18NLocale;
@@ -1028,6 +1021,10 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::ai-generative.ai-generative': ApiAiGenerativeAiGenerative;
+      'api::ai-model.ai-model': ApiAiModelAiModel;
+      'api::ai-propensity-model.ai-propensity-model': ApiAiPropensityModelAiPropensityModel;
+      'api::custom-auth.jwt-token': ApiCustomAuthJwtToken;
       'admin::permission': AdminPermission;
       'admin::user': AdminUser;
       'admin::role': AdminRole;

@@ -31,9 +31,6 @@
     },
     "ref_url": {
       "type": "string"
-    },
-    "image": {
-      "type": "string"
     }
   }
 }

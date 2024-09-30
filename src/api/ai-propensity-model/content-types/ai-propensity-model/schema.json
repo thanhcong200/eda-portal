@@ -44,9 +44,6 @@
       "target": "api::ai-model.ai-model",
       "inversedBy": "propensities"
     },
-    "image": {
-      "type": "string"
-    },
     "html_url": {
       "type": "string"
     },
