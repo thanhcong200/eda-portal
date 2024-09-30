@@ -1,7 +1,7 @@
 module.exports = ({ env }) => ({
   upload: {
     config: {
-      provider: "@strapi/provider-upload-aws-s3",
+      provider: env("UPLOAD_S3")?'@strapi/provider-upload-aws-s3':'local',
       providerOptions: {
         // accessKeyId: env("AWS_ACCESS_KEY_ID"),
         // secretAccessKey: env("AWS_ACCESS_SECRET"),
