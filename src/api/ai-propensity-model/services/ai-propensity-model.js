@@ -47,17 +47,17 @@ module.exports = createCoreService(
       const [entries, total] = await Promise.all([
         strapi.db.connection.raw(query, [
           +aiModelId,
-          `%${keyword.toLowerCase()}%`,
-          `%${keyword.toLowerCase()}%`,
-          `%${keyword.toLowerCase()}%`,
+          `%${keyword.trim().toLowerCase()}%`,
+          `%${keyword.trim().toLowerCase()}%`,
+          `%${keyword.trim().toLowerCase()}%`,
           limit,
           (page - 1) * limit,
         ]),
         strapi.db.connection.raw(countQuery, [
           +aiModelId,
-          `%${keyword.toLowerCase()}%`,
-          `%${keyword.toLowerCase()}%`,
-          `%${keyword.toLowerCase()}%`,
+          `%${keyword.trim().toLowerCase()}%`,
+          `%${keyword.trim().toLowerCase()}%`,
+          `%${keyword.trim().toLowerCase()}%`,
         ]),
       ]);
 

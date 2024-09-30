@@ -45,17 +45,17 @@ module.exports = createCoreService("api::ai-model.ai-model", ({ strapi }) => ({
     const [entries, total] = await Promise.all([
       strapi.db.connection.raw(query, [
         type,
-        `%${keyword.toLowerCase()}%`,
-        `%${keyword.toLowerCase()}%`,
-        `%${keyword.toLowerCase()}%`,
+        `%${keyword.trim().toLowerCase()}%`,
+        `%${keyword.trim().toLowerCase()}%`,
+        `%${keyword.trim().toLowerCase()}%`,
         limit,
         (page - 1) * limit,
       ]),
       strapi.db.connection.raw(countQuery, [
         type,
-        `%${keyword.toLowerCase()}%`,
-        `%${keyword.toLowerCase()}%`,
-        `%${keyword.toLowerCase()}%`,
+        `%${keyword.trim().toLowerCase()}%`,
+        `%${keyword.trim().toLowerCase()}%`,
+        `%${keyword.trim().toLowerCase()}%`,
       ]),
     ]);
     return {
