@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ai_app_categories",
+  "info": {
+    "singularName": "ai-app-category",
+    "pluralName": "ai-app-categories",
+    "displayName": "AI APP Category"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    }
+  }
+}

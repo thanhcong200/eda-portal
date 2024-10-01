@@ -489,6 +489,106 @@ export interface PluginUsersPermissionsUser
   };
 }
 
+export interface ApiAiAppAiApp extends Struct.CollectionTypeSchema {
+  collectionName: 'ai_apps';
+  info: {
+    singularName: 'ai-app';
+    pluralName: 'ai-apps';
+    displayName: 'AI App';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    short_desc: Schema.Attribute.Text;
+    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    ai_app_status: Schema.Attribute.Enumeration<
+      ['pilot', 'development', 'production']
+    > &
+      Schema.Attribute.Required;
+    ai_app_api: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::ai-app-api.ai-app-api'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::ai-app.ai-app'>;
+  };
+}
+
+export interface ApiAiAppApiAiAppApi extends Struct.CollectionTypeSchema {
+  collectionName: 'ai_app_apis';
+  info: {
+    singularName: 'ai-app-api';
+    pluralName: 'ai-app-apis';
+    displayName: 'AI App API';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    endpoint: Schema.Attribute.String & Schema.Attribute.Required;
+    method: Schema.Attribute.Enumeration<['POST', 'GET']> &
+      Schema.Attribute.DefaultTo<'POST'>;
+    form_data: Schema.Attribute.JSON;
+    bearer_token: Schema.Attribute.Text;
+    short_desc: Schema.Attribute.Text;
+    type: Schema.Attribute.Enumeration<
+      ['file-to-text', 'audio-to-text', 'text-to-audio']
+    > &
+      Schema.Attribute.Required;
+    ai_app: Schema.Attribute.Relation<'oneToOne', 'api::ai-app.ai-app'>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::ai-app-api.ai-app-api'
+    >;
+  };
+}
+
+export interface ApiAiAppCategoryAiAppCategory
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'ai_app_categories';
+  info: {
+    singularName: 'ai-app-category';
+    pluralName: 'ai-app-categories';
+    displayName: 'AI APP Category';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::ai-app-category.ai-app-category'
+    >;
+  };
+}
+
 export interface ApiAiGenerativeAiGenerative
   extends Struct.CollectionTypeSchema {
   collectionName: 'ai_generatives';
@@ -1024,6 +1124,9 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::ai-app.ai-app': ApiAiAppAiApp;
+      'api::ai-app-api.ai-app-api': ApiAiAppApiAiAppApi;
+      'api::ai-app-category.ai-app-category': ApiAiAppCategoryAiAppCategory;
       'api::ai-generative.ai-generative': ApiAiGenerativeAiGenerative;
       'api::ai-model.ai-model': ApiAiModelAiModel;
       'api::ai-propensity-model.ai-propensity-model': ApiAiPropensityModelAiPropensityModel;
