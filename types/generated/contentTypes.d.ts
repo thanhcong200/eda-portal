@@ -474,6 +474,10 @@ export interface PluginUsersPermissionsUser
       'oneToMany',
       'api::custom-auth.jwt-token'
     >;
+    ai_app_histories: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::ai-app-history.ai-app-history'
+    >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -510,6 +514,10 @@ export interface ApiAiAppAiApp extends Struct.CollectionTypeSchema {
     ai_app_api: Schema.Attribute.Relation<
       'oneToOne',
       'api::ai-app-api.ai-app-api'
+    >;
+    ai_app_histories: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::ai-app-history.ai-app-history'
     >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
@@ -585,6 +593,40 @@ export interface ApiAiAppCategoryAiAppCategory
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::ai-app-category.ai-app-category'
+    >;
+  };
+}
+
+export interface ApiAiAppHistoryAiAppHistory
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'ai_app_histories';
+  info: {
+    singularName: 'ai-app-history';
+    pluralName: 'ai-app-histories';
+    displayName: 'AI App History';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    result: Schema.Attribute.JSON;
+    file_url: Schema.Attribute.String;
+    ai_app: Schema.Attribute.Relation<'manyToOne', 'api::ai-app.ai-app'>;
+    user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::ai-app-history.ai-app-history'
     >;
   };
 }
@@ -1127,6 +1169,7 @@ declare module '@strapi/strapi' {
       'api::ai-app.ai-app': ApiAiAppAiApp;
       'api::ai-app-api.ai-app-api': ApiAiAppApiAiAppApi;
       'api::ai-app-category.ai-app-category': ApiAiAppCategoryAiAppCategory;
+      'api::ai-app-history.ai-app-history': ApiAiAppHistoryAiAppHistory;
       'api::ai-generative.ai-generative': ApiAiGenerativeAiGenerative;
       'api::ai-model.ai-model': ApiAiModelAiModel;
       'api::ai-propensity-model.ai-propensity-model': ApiAiPropensityModelAiPropensityModel;

@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ai_app_histories",
+  "info": {
+    "singularName": "ai-app-history",
+    "pluralName": "ai-app-histories",
+    "displayName": "AI App History"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "result": {
+      "type": "json"
+    },
+    "file_url": {
+      "type": "string"
+    },
+    "ai_app": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::ai-app.ai-app",
+      "inversedBy": "ai_app_histories"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "ai_app_histories"
+    }
+  }
+}
