@@ -508,15 +508,23 @@ export interface ApiAiAppAiApp extends Struct.CollectionTypeSchema {
     name: Schema.Attribute.String & Schema.Attribute.Required;
     short_desc: Schema.Attribute.Text;
     image: Schema.Attribute.Media<'files' | 'images'>;
-    api: Schema.Attribute.Relation<'oneToOne', 'api::ai-app-api.ai-app-api'>;
-    histories: Schema.Attribute.Relation<
+    ai_app_api: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::ai-app-api.ai-app-api'
+    >;
+    ai_app_histories: Schema.Attribute.Relation<
       'oneToMany',
       'api::ai-app-history.ai-app-history'
     >;
-    category: Schema.Attribute.Relation<
+    ai_app_category: Schema.Attribute.Relation<
       'manyToOne',
       'api::ai-app-category.ai-app-category'
     >;
+    bu: Schema.Attribute.String & Schema.Attribute.Required;
+    scope: Schema.Attribute.String;
+    po: Schema.Attribute.String & Schema.Attribute.Required;
+    impact: Schema.Attribute.JSON;
+    pdf: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -535,6 +543,7 @@ export interface ApiAiAppApiAiAppApi extends Struct.CollectionTypeSchema {
     singularName: 'ai-app-api';
     pluralName: 'ai-app-apis';
     displayName: 'AI App API';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -545,12 +554,9 @@ export interface ApiAiAppApiAiAppApi extends Struct.CollectionTypeSchema {
     method: Schema.Attribute.Enumeration<['POST', 'GET']> &
       Schema.Attribute.DefaultTo<'POST'>;
     form_data: Schema.Attribute.JSON;
-    bearer_token: Schema.Attribute.Text;
+    token_value: Schema.Attribute.Text & Schema.Attribute.Required;
+    token_key: Schema.Attribute.String & Schema.Attribute.Required;
     short_desc: Schema.Attribute.Text;
-    type: Schema.Attribute.Enumeration<
-      ['file-to-text', 'audio-to-text', 'text-to-audio']
-    > &
-      Schema.Attribute.Required;
     ai_app: Schema.Attribute.Relation<'oneToOne', 'api::ai-app.ai-app'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
@@ -581,10 +587,10 @@ export interface ApiAiAppCategoryAiAppCategory
   };
   attributes: {
     name: Schema.Attribute.String;
-    ai_apps: Schema.Attribute.Relation<'oneToMany', 'api::ai-app.ai-app'>;
     type: Schema.Attribute.Enumeration<['file-to-text', 'voice-to-text']>;
     image: Schema.Attribute.Media<'images' | 'files'> &
       Schema.Attribute.Required;
+    ai_apps: Schema.Attribute.Relation<'oneToMany', 'api::ai-app.ai-app'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;

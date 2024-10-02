@@ -6,4 +6,17 @@
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
-module.exports = createCoreController('api::ai-app.ai-app');
+module.exports = createCoreController('api::ai-app.ai-app', ({ strapi }) => ({
+    async findAll(ctx) {
+        const result = await strapi
+            .service("api::ai-app.ai-app")
+            .findAll(ctx);
+        ctx.send(result);
+    },
+    async findOneById(ctx) {
+        const result = await strapi
+            .service("api::ai-app.ai-app")
+            .findOneById(ctx);
+        ctx.send(result);
+    },
+}));

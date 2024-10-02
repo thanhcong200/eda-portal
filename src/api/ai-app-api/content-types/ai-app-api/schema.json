@@ -4,7 +4,8 @@
   "info": {
     "singularName": "ai-app-api",
     "pluralName": "ai-app-apis",
-    "displayName": "AI App API"
+    "displayName": "AI App API",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -30,26 +31,22 @@
     "form_data": {
       "type": "json"
     },
-    "bearer_token": {
-      "type": "text"
+    "token_value": {
+      "type": "text",
+      "required": true
+    },
+    "token_key": {
+      "type": "string",
+      "required": true
     },
     "short_desc": {
       "type": "text"
-    },
-    "type": {
-      "type": "enumeration",
-      "enum": [
-        "file-to-text",
-        "audio-to-text",
-        "text-to-audio"
-      ],
-      "required": true
     },
     "ai_app": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::ai-app.ai-app",
-      "mappedBy": "api"
+      "mappedBy": "ai_app_api"
     }
   }
 }

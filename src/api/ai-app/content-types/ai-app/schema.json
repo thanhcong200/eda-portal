@@ -28,23 +28,48 @@
         "images"
       ]
     },
-    "api": {
+    "ai_app_api": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::ai-app-api.ai-app-api",
       "inversedBy": "ai_app"
     },
-    "histories": {
+    "ai_app_histories": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::ai-app-history.ai-app-history",
       "mappedBy": "ai_app"
     },
-    "category": {
+    "ai_app_category": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::ai-app-category.ai-app-category",
       "inversedBy": "ai_apps"
+    },
+    "bu": {
+      "type": "string",
+      "required": true
+    },
+    "scope": {
+      "type": "string"
+    },
+    "po": {
+      "type": "string",
+      "required": true
+    },
+    "impact": {
+      "type": "json"
+    },
+    "pdf": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
     }
   }
 }

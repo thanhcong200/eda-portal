@@ -27,7 +27,7 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::ai-app.ai-app",
-      "inversedBy": "histories"
+      "inversedBy": "ai_app_histories"
     }
   }
 }

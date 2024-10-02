@@ -15,12 +15,6 @@
     "name": {
       "type": "string"
     },
-    "ai_apps": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::ai-app.ai-app",
-      "mappedBy": "category"
-    },
     "type": {
       "type": "enumeration",
       "enum": [
@@ -36,6 +30,12 @@
       "type": "media",
       "multiple": false,
       "required": true
+    },
+    "ai_apps": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::ai-app.ai-app",
+      "mappedBy": "ai_app_category"
     }
   }
 }
