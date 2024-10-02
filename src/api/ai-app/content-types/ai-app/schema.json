@@ -4,7 +4,8 @@
   "info": {
     "singularName": "ai-app",
     "pluralName": "ai-apps",
-    "displayName": "AI App"
+    "displayName": "AI App",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -19,35 +20,31 @@
       "type": "text"
     },
     "image": {
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ],
       "type": "media",
-      "multiple": false
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "files",
+        "images"
+      ]
     },
-    "ai_app_status": {
-      "type": "enumeration",
-      "enum": [
-        "pilot",
-        "development",
-        "production"
-      ],
-      "required": true
-    },
-    "ai_app_api": {
+    "api": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::ai-app-api.ai-app-api",
       "inversedBy": "ai_app"
     },
-    "ai_app_histories": {
+    "histories": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::ai-app-history.ai-app-history",
       "mappedBy": "ai_app"
+    },
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::ai-app-category.ai-app-category",
+      "inversedBy": "ai_apps"
     }
   }
 }

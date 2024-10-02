@@ -4,7 +4,8 @@
   "info": {
     "singularName": "ai-app-category",
     "pluralName": "ai-app-categories",
-    "displayName": "AI APP Category"
+    "displayName": "AI APP Category",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -13,6 +14,28 @@
   "attributes": {
     "name": {
       "type": "string"
+    },
+    "ai_apps": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::ai-app.ai-app",
+      "mappedBy": "category"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "file-to-text",
+        "voice-to-text"
+      ]
+    },
+    "image": {
+      "allowedTypes": [
+        "images",
+        "files"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true
     }
   }
 }

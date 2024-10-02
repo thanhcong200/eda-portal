@@ -499,6 +499,7 @@ export interface ApiAiAppAiApp extends Struct.CollectionTypeSchema {
     singularName: 'ai-app';
     pluralName: 'ai-apps';
     displayName: 'AI App';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -506,18 +507,15 @@ export interface ApiAiAppAiApp extends Struct.CollectionTypeSchema {
   attributes: {
     name: Schema.Attribute.String & Schema.Attribute.Required;
     short_desc: Schema.Attribute.Text;
-    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    ai_app_status: Schema.Attribute.Enumeration<
-      ['pilot', 'development', 'production']
-    > &
-      Schema.Attribute.Required;
-    ai_app_api: Schema.Attribute.Relation<
-      'oneToOne',
-      'api::ai-app-api.ai-app-api'
-    >;
-    ai_app_histories: Schema.Attribute.Relation<
+    image: Schema.Attribute.Media<'files' | 'images'>;
+    api: Schema.Attribute.Relation<'oneToOne', 'api::ai-app-api.ai-app-api'>;
+    histories: Schema.Attribute.Relation<
       'oneToMany',
       'api::ai-app-history.ai-app-history'
+    >;
+    category: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::ai-app-category.ai-app-category'
     >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
@@ -576,12 +574,17 @@ export interface ApiAiAppCategoryAiAppCategory
     singularName: 'ai-app-category';
     pluralName: 'ai-app-categories';
     displayName: 'AI APP Category';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
     name: Schema.Attribute.String;
+    ai_apps: Schema.Attribute.Relation<'oneToMany', 'api::ai-app.ai-app'>;
+    type: Schema.Attribute.Enumeration<['file-to-text', 'voice-to-text']>;
+    image: Schema.Attribute.Media<'images' | 'files'> &
+      Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -611,11 +614,11 @@ export interface ApiAiAppHistoryAiAppHistory
   attributes: {
     result: Schema.Attribute.JSON;
     file_url: Schema.Attribute.String;
-    ai_app: Schema.Attribute.Relation<'manyToOne', 'api::ai-app.ai-app'>;
     user: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.user'
     >;
+    ai_app: Schema.Attribute.Relation<'manyToOne', 'api::ai-app.ai-app'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -646,7 +649,7 @@ export interface ApiAiGenerativeAiGenerative
   attributes: {
     name: Schema.Attribute.String & Schema.Attribute.Required;
     short_desc: Schema.Attribute.Text & Schema.Attribute.Required;
-    logo: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'> &
+    logo: Schema.Attribute.Media<'images' | 'files'> &
       Schema.Attribute.Required;
     ref_url: Schema.Attribute.String & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
@@ -679,7 +682,7 @@ export interface ApiAiModelAiModel extends Struct.CollectionTypeSchema {
     name: Schema.Attribute.String & Schema.Attribute.Required;
     impact: Schema.Attribute.Text & Schema.Attribute.Required;
     purpose: Schema.Attribute.Text & Schema.Attribute.Required;
-    cover: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'> &
+    cover: Schema.Attribute.Media<'images' | 'files'> &
       Schema.Attribute.Required;
     type: Schema.Attribute.Enumeration<
       [
@@ -727,7 +730,7 @@ export interface ApiAiPropensityModelAiPropensityModel
     name: Schema.Attribute.String & Schema.Attribute.Required;
     scope: Schema.Attribute.Text & Schema.Attribute.Required;
     po: Schema.Attribute.String & Schema.Attribute.Required;
-    icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'> &
+    icon: Schema.Attribute.Media<'images' | 'files'> &
       Schema.Attribute.Required;
     ai_models: Schema.Attribute.Relation<
       'manyToMany',
