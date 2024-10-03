@@ -7,6 +7,12 @@
 const { createCoreController } = require('@strapi/strapi').factories;
 
 module.exports = createCoreController('api::ai-app.ai-app', ({ strapi }) => ({
+    async generate(ctx) {
+        const result = await strapi
+            .service("api::ai-app.ai-app")
+            .generate(ctx);
+        ctx.send(result);
+    },
     async findAll(ctx) {
         const result = await strapi
             .service("api::ai-app.ai-app")

@@ -613,6 +613,7 @@ export interface ApiAiAppHistoryAiAppHistory
     singularName: 'ai-app-history';
     pluralName: 'ai-app-histories';
     displayName: 'AI App History';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -625,6 +626,7 @@ export interface ApiAiAppHistoryAiAppHistory
       'plugin::users-permissions.user'
     >;
     ai_app: Schema.Attribute.Relation<'manyToOne', 'api::ai-app.ai-app'>;
+    data: Schema.Attribute.Text;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;

@@ -4,7 +4,8 @@
   "info": {
     "singularName": "ai-app-history",
     "pluralName": "ai-app-histories",
-    "displayName": "AI App History"
+    "displayName": "AI App History",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -28,6 +29,9 @@
       "relation": "manyToOne",
       "target": "api::ai-app.ai-app",
       "inversedBy": "ai_app_histories"
+    },
+    "data": {
+      "type": "text"
     }
   }
 }

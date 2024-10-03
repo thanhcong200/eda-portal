@@ -18,5 +18,13 @@ module.exports = {
         middlewares: [authUser],
       },
     },
+    {
+      method: "POST",
+      path: "/ai-app/:document_id/generate",
+      handler: "ai-app.generate",
+      config: {
+        middlewares: [authUser],
+      },
+    },
   ],
 };

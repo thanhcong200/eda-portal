@@ -4,7 +4,11 @@ const timezone = require("dayjs/plugin/timezone");
 const jwt = require("jsonwebtoken");
 const envConfig = require("../../config/env-config");
 const utils = require("@strapi/utils");
-const { UnauthorizedError } = utils.errors;
+const fs = require('fs');
+const https = require('https');
+const { PNG } = require('pngjs');
+
+const { UnauthorizedError} = utils.errors;
 // Load the plugins
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -84,6 +88,52 @@ const createResponse = (data, message = "Success", status = 200) => {
   };
 };
 
+const downloadFile = (url, downloadPath) => {
+  return new Promise((resolve, reject) => {
+    const file = fs.createWriteStream(downloadPath);
+    https.get(url, (response) => {
+      response.pipe(file);
+      file.on('finish', () => {
+        file.close(() => resolve(downloadPath));
+      });
+    }).on('error', (err) => {
+      fs.unlink(downloadPath, () => reject(err));
+    });
+  });
+};
+
+const convertRGBToPng = async (data, fileName) => {
+  console.log(data, fileName)
+  const width = data[0].length;
+  const height = data.length;
+  
+  // Create a new PNG instance
+  const png = new PNG({
+    width: width,
+    height: height
+  });
+  
+  // Populate the PNG buffer with pixel data
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const idx = (width * y + x) << 2; // Calculate the index for the buffer
+      const [r, g, b] = data[y][x]; // Get the RGB values
+  
+      png.data[idx] = r;     // Red
+      png.data[idx + 1] = g; // Green
+      png.data[idx + 2] = b; // Blue
+      png.data[idx + 3] = 255; // Alpha (opacity), 255 = fully opaque
+    }
+  }
+  
+  // Save the PNG to disk
+  await png.pack().pipe(fs.createWriteStream(`public/uploads/${fileName}`));
+  return `/uploads/${fileName}`;
+}
+
+
+
+
 module.exports = {
   getCurrentTimeInHoChiMinh,
   convertToHoChiMinhTime,
@@ -94,5 +144,7 @@ module.exports = {
   parseTotal,
   generateToken,
   parseEntries,
+  downloadFile,
+  convertRGBToPng,
   dayjs,
 };

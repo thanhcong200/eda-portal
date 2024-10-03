@@ -1,6 +1,13 @@
 'use strict';
 
-const { createResponse, parseEntries, parseTotal, pagination } = require('../../../common/util');
+const { createResponse, parseEntries, parseTotal, pagination, dayjs, convertRGBToPng } = require('../../../common/util');
+const fs = require("fs");
+const axios = require('axios');
+const FormData = require('form-data');
+const utils = require("@strapi/utils");
+const { HttpStatusCode } = require('axios');
+const { NotFoundError } = utils.errors;
+
 
 /**
  * ai-app service
@@ -9,6 +16,68 @@ const { createResponse, parseEntries, parseTotal, pagination } = require('../../
 const { createCoreService } = require('@strapi/strapi').factories;
 
 module.exports = createCoreService('api::ai-app.ai-app', ({ strapi }) => ({
+    async generate(ctx) {
+        const { document_id } = ctx.params;
+        const { url } = ctx.request.body;
+        const apiQuery = `SELECT api.*, ai.id as ai_app_id, ai.document_id as ai_app_document_id FROM ai_apps ai
+                      INNER JOIN ai_apps_ai_app_api_lnk api_lnk ON api_lnk.ai_app_id = ai.id
+                      INNER JOIN ai_app_apis api ON api.id = api_lnk.ai_app_api_id AND api.published_at IS NOT NULL 
+                      WHERE ai.document_id = ? AND ai.published_at IS NOT NULL
+                      `
+        const entries = await strapi.db.connection.raw(apiQuery, [document_id]);
+        const entryApi = parseEntries(entries)[0];
+        if (!entryApi || !Object.keys(entryApi).length) {
+            throw new NotFoundError();
+        }
+        const form = new FormData();
+        form.append('file', fs.createReadStream('public' + url));
+        let data;
+        let error;
+        try {
+            const res = await axios({
+                method: entryApi.method,
+                url: entryApi.endpoint,
+                data: form,
+                headers: {
+                    ...form.getHeaders(),
+                    [entryApi.token_key]: entryApi.token_value
+                }
+            });
+            if (res.status === HttpStatusCode.Ok) {
+                data = res.data;
+                const filePaths = [];
+                let i = 1;
+                for(const item of Object.keys(data['tables_image'])) {
+                    const fileName = `${entryApi.ai_app_document_id}${dayjs().get('millisecond')}${i}`;
+                    const path = await convertRGBToPng(data['tables_image'][`${item}`][0], fileName);
+                    filePaths.push(path);
+                    i++;
+                }
+                console.log(ctx.state.user.id, entryApi.ai_app_id)
+                data['tables_image'] = filePaths;
+                await strapi.db.query('api::ai-app-history.ai-app-history').create({
+                    data: {
+                        result: data,
+                        file_url: url,
+                        user: ctx.state.user.id, // user ID
+                        ai_app: entryApi.ai_app_id, // ai-app ID
+                        published_at: new Date()
+                    },
+                });
+            }
+
+        } catch (err) {
+            error = JSON.stringify(err)
+        }
+
+        if (error) {
+            return createResponse({ error }, "Error", 400)
+        }
+
+        return createResponse({
+            ...data
+        })
+    },
     async findAll(ctx) {
         const {
             keyword = "",
