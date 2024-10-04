@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ai_app_bookmarks",
+  "info": {
+    "singularName": "ai-app-bookmark",
+    "pluralName": "ai-app-bookmarks",
+    "displayName": "AI App Bookmark"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "ai_app": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::ai-app.ai-app",
+      "inversedBy": "ai_app_bookmarks"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "ai_app_bookmarks"
+    },
+    "is_save": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

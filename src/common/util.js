@@ -103,7 +103,6 @@ const downloadFile = (url, downloadPath) => {
 };
 
 const convertRGBToPng = async (data, fileName) => {
-  console.log(data, fileName)
   const width = data[0].length;
   const height = data.length;
   

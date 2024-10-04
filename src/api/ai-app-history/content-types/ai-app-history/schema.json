@@ -15,8 +15,9 @@
     "result": {
       "type": "json"
     },
-    "file_url": {
-      "type": "string"
+    "origin_url": {
+      "type": "string",
+      "required": true
     },
     "user": {
       "type": "relation",
@@ -29,9 +30,6 @@
       "relation": "manyToOne",
       "target": "api::ai-app.ai-app",
       "inversedBy": "ai_app_histories"
-    },
-    "data": {
-      "type": "text"
     }
   }
 }

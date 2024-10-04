@@ -26,5 +26,21 @@ module.exports = {
         middlewares: [authUser],
       },
     },
+    {
+      method: "POST",
+      path: "/ai-app/:document_id/like",
+      handler: "ai-app.like",
+      config: {
+        middlewares: [authUser],
+      },
+    },
+    {
+      method: "POST",
+      path: "/ai-app/:document_id/bookmark",
+      handler: "ai-app.saveBookmark",
+      config: {
+        middlewares: [authUser],
+      },
+    },
   ],
 };

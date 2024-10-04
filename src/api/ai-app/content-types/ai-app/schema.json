@@ -70,6 +70,20 @@
         "videos",
         "audios"
       ]
+    },
+    "like": {
+      "type": "biginteger",
+      "default": "0"
+    },
+    "ai_app_bookmarks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::ai-app-bookmark.ai-app-bookmark",
+      "mappedBy": "ai_app"
+    },
+    "quantity_used": {
+      "type": "biginteger",
+      "default": "0"
     }
   }
 }

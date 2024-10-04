@@ -76,6 +76,12 @@
       "relation": "oneToMany",
       "target": "api::ai-app-history.ai-app-history",
       "mappedBy": "user"
+    },
+    "ai_app_bookmarks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::ai-app-bookmark.ai-app-bookmark",
+      "mappedBy": "user"
     }
   }
 }

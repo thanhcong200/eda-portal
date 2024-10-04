@@ -19,6 +19,7 @@ module.exports = createCoreService('api::ai-app.ai-app', ({ strapi }) => ({
     async generate(ctx) {
         const { document_id } = ctx.params;
         const { url } = ctx.request.body;
+        const userId = ctx.state.user.id;
         const apiQuery = `SELECT api.*, ai.id as ai_app_id, ai.document_id as ai_app_document_id FROM ai_apps ai
                       INNER JOIN ai_apps_ai_app_api_lnk api_lnk ON api_lnk.ai_app_id = ai.id
                       INNER JOIN ai_app_apis api ON api.id = api_lnk.ai_app_api_id AND api.published_at IS NOT NULL 
@@ -45,23 +46,24 @@ module.exports = createCoreService('api::ai-app.ai-app', ({ strapi }) => ({
             });
             if (res.status === HttpStatusCode.Ok) {
                 data = res.data;
-                const filePaths = [];
+                const filePaths = {};
                 let i = 1;
-                for(const item of Object.keys(data['tables_image'])) {
-                    const fileName = `${entryApi.ai_app_document_id}${dayjs().get('millisecond')}${i}`;
+                for (const item of Object.keys(data['tables_image'])) {
+                    const fileName = `${entryApi.ai_app_document_id}${dayjs().get('millisecond')}${i}.png`;
                     const path = await convertRGBToPng(data['tables_image'][`${item}`][0], fileName);
-                    filePaths.push(path);
+                    filePaths[item] = path;
                     i++;
                 }
-                console.log(ctx.state.user.id, entryApi.ai_app_id)
                 data['tables_image'] = filePaths;
                 await strapi.db.query('api::ai-app-history.ai-app-history').create({
                     data: {
                         result: data,
-                        file_url: url,
+                        origin_url: url,
                         user: ctx.state.user.id, // user ID
                         ai_app: entryApi.ai_app_id, // ai-app ID
-                        published_at: new Date()
+                        published_at: new Date(),
+                        created_by_id: userId,
+                        updated_by_id: userId,
                     },
                 });
             }
@@ -78,6 +80,49 @@ module.exports = createCoreService('api::ai-app.ai-app', ({ strapi }) => ({
             ...data
         })
     },
+    async like(ctx) {
+        const { document_id } = ctx.params;
+        const { quantity } = ctx.request.body;
+        const entry = await strapi.db.query('api::ai-app.ai-app').update({
+            where: { documentId: document_id },
+            data: {
+                like: { $increment: quantity },  // Increment the 'like' field by 1
+                publishedAt: { $notNull: true }
+            },
+        });
+        return createResponse({ document_id, like: entry.like })
+    },
+    async saveBookmark(ctx) {
+        const { document_id } = ctx.params;
+        const { is_save, ai_app_id } = ctx.request.body;
+        const userId = ctx.state.user.id;
+
+        if (is_save === true) {
+            await strapi.entityService.create('api::ai-app-bookmark.ai-app-bookmark', {
+                data: {
+                    ai_app: ai_app_id,  // Relation to the ai-app document ID
+                    user: userId,      // Relation to the user document ID
+                    is_save: true,      // Default value for is_save field
+                },
+            });
+        }
+        else if (is_save === false) {
+            const bookmark = await strapi.db.query('api::ai-app-bookmark.ai-app-bookmark').findOne({
+                where: {
+                    ai_app: ai_app_id,
+                    user: userId,
+                },
+            });
+
+            if (!bookmark) {
+                return ctx.notFound('Bookmark not found');
+            }
+
+            // Delete the bookmark
+            await strapi.entityService.delete('api::ai-app-bookmark.ai-app-bookmark', bookmark.id);
+            return createResponse(null);
+        }
+    },
     async findAll(ctx) {
         const {
             keyword = "",
@@ -90,7 +135,7 @@ module.exports = createCoreService('api::ai-app.ai-app', ({ strapi }) => ({
 
         const query = `SELECT ai.id as id, ai.document_id as document_id, ai.name as name, ai.short_desc, ai.scope as scope,
                        ai.po as po, ai.bu as bu, ai.impact as impact, f_image.url as url, f_image.formats as image,
-                        f_pdf.url as pdf_url, f_pdf.formats as pdf,
+                        ai.like as like, ai.quantity_used as quantity_used, f_pdf.url as pdf_url, f_pdf.formats as pdf,
                       ai.updated_at as updated_at, ai.created_at as created_at, ai.published_at as published_at, 
                       ai.locale as locale 
                       FROM ai_apps ai
@@ -141,7 +186,7 @@ module.exports = createCoreService('api::ai-app.ai-app', ({ strapi }) => ({
         const { document_id } = ctx.params;
         const query = `SELECT ai.id as id, ai.document_id as document_id, ai.name as name, ai.short_desc, ai.scope as scope,
                        ai.po as po, ai.bu as bu, ai.impact as impact, f_image.url as url, f_image.formats as image,
-                        f_pdf.url as pdf_url, f_pdf.formats as pdf,
+                        ai.like as like, ai.quantity_used as quantity_used, f_pdf.url as pdf_url, f_pdf.formats as pdf,
                       ai.updated_at as updated_at, ai.created_at as created_at, ai.published_at as published_at, 
                       ai.locale as locale 
                       FROM ai_apps ai

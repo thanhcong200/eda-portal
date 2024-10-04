@@ -13,6 +13,18 @@ module.exports = createCoreController('api::ai-app.ai-app', ({ strapi }) => ({
             .generate(ctx);
         ctx.send(result);
     },
+    async like(ctx) {
+        const result = await strapi
+            .service("api::ai-app.ai-app")
+            .like(ctx);
+        ctx.send(result);
+    },
+    async saveBookmark(ctx) {
+        const result = await strapi
+            .service("api::ai-app.ai-app")
+            .saveBookmark(ctx);
+        ctx.send(result);
+    },
     async findAll(ctx) {
         const result = await strapi
             .service("api::ai-app.ai-app")
