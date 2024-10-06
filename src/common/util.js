@@ -130,6 +130,13 @@ const convertRGBToPng = async (data, fileName) => {
   return `/uploads/${fileName}`;
 }
 
+const convertBase64ToJPG = async(data, fileName) => {
+  // const buffer = fs.readFileSync("path-to-image.jpg");
+  // Pipes an image with "new-path.jpg" as the name.
+  fs.writeFileSync(`public/uploads/${fileName}`, data);
+  return `/uploads/${fileName}`;
+}
+
 
 
 
@@ -145,5 +152,6 @@ module.exports = {
   parseEntries,
   downloadFile,
   convertRGBToPng,
+  convertBase64ToJPG,
   dayjs,
 };

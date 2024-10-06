@@ -11,14 +11,6 @@ module.exports = {
       },
     },
     {
-      method: "GET",
-      path: "/ai-app/:document_id",
-      handler: "ai-app.findOneById",
-      config: {
-        middlewares: [authUser],
-      },
-    },
-    {
       method: "POST",
       path: "/ai-app/:document_id/generate",
       handler: "ai-app.generate",
@@ -38,6 +30,14 @@ module.exports = {
       method: "POST",
       path: "/ai-app/:document_id/bookmark",
       handler: "ai-app.saveBookmark",
+      config: {
+        middlewares: [authUser],
+      },
+    },
+    {
+      method: "GET",
+      path: "/ai-app/:document_id",
+      handler: "ai-app.findOneById",
       config: {
         middlewares: [authUser],
       },
