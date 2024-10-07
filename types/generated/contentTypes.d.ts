@@ -478,9 +478,9 @@ export interface PluginUsersPermissionsUser
       'oneToMany',
       'api::ai-app-history.ai-app-history'
     >;
-    ai_app_bookmarks: Schema.Attribute.Relation<
+    user_ai_apps: Schema.Attribute.Relation<
       'oneToMany',
-      'api::ai-app-bookmark.ai-app-bookmark'
+      'api::user-ai-app.user-ai-app'
     >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
@@ -529,13 +529,13 @@ export interface ApiAiAppAiApp extends Struct.CollectionTypeSchema {
     po: Schema.Attribute.String & Schema.Attribute.Required;
     impact: Schema.Attribute.JSON;
     pdf: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    like: Schema.Attribute.BigInteger & Schema.Attribute.DefaultTo<'0'>;
-    ai_app_bookmarks: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::ai-app-bookmark.ai-app-bookmark'
-    >;
-    quantity_used: Schema.Attribute.BigInteger &
+    total_like: Schema.Attribute.BigInteger & Schema.Attribute.DefaultTo<'0'>;
+    total_quantity_used: Schema.Attribute.BigInteger &
       Schema.Attribute.DefaultTo<'0'>;
+    user: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::user-ai-app.user-ai-app'
+    >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -580,39 +580,6 @@ export interface ApiAiAppApiAiAppApi extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::ai-app-api.ai-app-api'
-    >;
-  };
-}
-
-export interface ApiAiAppBookmarkAiAppBookmark
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'ai_app_bookmarks';
-  info: {
-    singularName: 'ai-app-bookmark';
-    pluralName: 'ai-app-bookmarks';
-    displayName: 'AI App Bookmark';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    ai_app: Schema.Attribute.Relation<'manyToOne', 'api::ai-app.ai-app'>;
-    user: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-    is_save: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
-    createdAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    publishedAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::ai-app-bookmark.ai-app-bookmark'
     >;
   };
 }
@@ -841,6 +808,41 @@ export interface ApiCustomAuthJwtToken extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::custom-auth.jwt-token'
+    >;
+  };
+}
+
+export interface ApiUserAiAppUserAiApp extends Struct.CollectionTypeSchema {
+  collectionName: 'user_ai_apps';
+  info: {
+    singularName: 'user-ai-app';
+    pluralName: 'user-ai-apps';
+    displayName: 'User AI App';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    ai_app: Schema.Attribute.Relation<'manyToOne', 'api::ai-app.ai-app'>;
+    user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    is_save_bookmark: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
+    is_like: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::user-ai-app.user-ai-app'
     >;
   };
 }
@@ -1222,13 +1224,13 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::ai-app.ai-app': ApiAiAppAiApp;
       'api::ai-app-api.ai-app-api': ApiAiAppApiAiAppApi;
-      'api::ai-app-bookmark.ai-app-bookmark': ApiAiAppBookmarkAiAppBookmark;
       'api::ai-app-category.ai-app-category': ApiAiAppCategoryAiAppCategory;
       'api::ai-app-history.ai-app-history': ApiAiAppHistoryAiAppHistory;
       'api::ai-generative.ai-generative': ApiAiGenerativeAiGenerative;
       'api::ai-model.ai-model': ApiAiModelAiModel;
       'api::ai-propensity-model.ai-propensity-model': ApiAiPropensityModelAiPropensityModel;
       'api::custom-auth.jwt-token': ApiCustomAuthJwtToken;
+      'api::user-ai-app.user-ai-app': ApiUserAiAppUserAiApp;
       'admin::permission': AdminPermission;
       'admin::user': AdminUser;
       'admin::role': AdminRole;

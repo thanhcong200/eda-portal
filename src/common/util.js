@@ -131,9 +131,21 @@ const convertRGBToPng = async (data, fileName) => {
 }
 
 const convertBase64ToJPG = async(data, fileName) => {
-  // const buffer = fs.readFileSync("path-to-image.jpg");
-  // Pipes an image with "new-path.jpg" as the name.
-  fs.writeFileSync(`public/uploads/${fileName}`, data);
+  try {
+    // Remove the Base64 URL prefix if present (e.g., data:image/jpeg;base64,)
+    const base64Data = data.replace(/^data:image\/jpeg;base64,/, "");
+
+    // Create a buffer from the Base64 string
+    const imageBuffer = Buffer.from(base64Data, 'base64');
+
+    // Write the buffer to a file, using await for async operation
+    await fs.promises.writeFile(`public/uploads/${fileName}`, imageBuffer);
+
+    console.log("JPG file created successfully:", `public/uploads/${fileName}`);
+  } catch (err) {
+    console.error("Error writing the JPG file:", err);
+  }
+  // fs.writeFileSync(`public/uploads/${fileName}`, Buffer.from(data).toString('base64'));
   return `/uploads/${fileName}`;
 }
 

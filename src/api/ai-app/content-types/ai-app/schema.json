@@ -71,19 +71,19 @@
         "audios"
       ]
     },
-    "like": {
+    "total_like": {
       "type": "biginteger",
       "default": "0"
     },
-    "ai_app_bookmarks": {
+    "total_quantity_used": {
+      "type": "biginteger",
+      "default": "0"
+    },
+    "user": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::ai-app-bookmark.ai-app-bookmark",
+      "target": "api::user-ai-app.user-ai-app",
       "mappedBy": "ai_app"
-    },
-    "quantity_used": {
-      "type": "biginteger",
-      "default": "0"
     }
   }
 }

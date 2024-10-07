@@ -77,10 +77,10 @@
       "target": "api::ai-app-history.ai-app-history",
       "mappedBy": "user"
     },
-    "ai_app_bookmarks": {
+    "user_ai_apps": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::ai-app-bookmark.ai-app-bookmark",
+      "target": "api::user-ai-app.user-ai-app",
       "mappedBy": "user"
     }
   }
