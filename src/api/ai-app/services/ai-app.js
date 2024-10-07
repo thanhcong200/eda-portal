@@ -224,8 +224,17 @@ module.exports = createCoreService("api::ai-app.ai-app", ({ strapi }) => ({
             categoryDocumentId = "",
             page = 1,
             limit = 10,
+            isSaveBookmark
         } = ctx.request.query;
         const userId = ctx.state.user.id;
+        let condition_query = '';
+        if(+isSaveBookmark === 1) {
+            condition_query = ` AND user_ai_app.is_save_bookmark = ${true}`
+        }
+        if(categoryDocumentId) {
+            condition_query += ` AND category.document_id = '${categoryDocumentId}'`
+        }
+
         const query = `
                     WITH user_ai_app AS ( SELECT ai_app_lnk.ai_app_id as ai_app_id, user_ai_apps.is_like as is_like, user_ai_apps.is_save_bookmark as is_save_bookmark
                       FROM user_ai_apps 
@@ -249,10 +258,7 @@ module.exports = createCoreService("api::ai-app.ai-app", ({ strapi }) => ({
                       LEFT JOIN files f_pdf ON f_pdf.id = fr_pdf.file_id 
                       LEFT JOIN user_ai_app ON user_ai_app.ai_app_id = ai.id
                       WHERE ai.published_at IS NOT NULL AND (LOWER(ai.name) LIKE ? OR LOWER(ai.bu) LIKE ? OR LOWER(ai.scope) LIKE ?)
-                      ${categoryDocumentId
-                ? ` AND category.document_id = '${categoryDocumentId}'`
-                : ""
-            }
+                      ${condition_query}
                       ORDER BY ai.${sortField} ${sortValue}
                       LIMIT ? OFFSET ?
           `;
