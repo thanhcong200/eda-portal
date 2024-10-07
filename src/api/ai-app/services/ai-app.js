@@ -51,7 +51,7 @@ module.exports = createCoreService("api::ai-app.ai-app", ({ strapi }) => ({
                 },
                 headers: {
                     // ...form.getHeaders(),
-                    [entryApi.token_key]: entryApi.token_value,
+                    [entryApi.token_key.trim()]: entryApi.token_value.trim(),
                 },
             });
             if (res.status === HttpStatusCode.Ok) {
