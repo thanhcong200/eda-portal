@@ -72,12 +72,12 @@
       ]
     },
     "total_like": {
-      "type": "biginteger",
-      "default": "0"
+      "type": "integer",
+      "default": 0
     },
     "total_quantity_used": {
-      "type": "biginteger",
-      "default": "0"
+      "type": "integer",
+      "default": 0
     },
     "user": {
       "type": "relation",

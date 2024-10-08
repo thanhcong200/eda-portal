@@ -529,9 +529,9 @@ export interface ApiAiAppAiApp extends Struct.CollectionTypeSchema {
     po: Schema.Attribute.String & Schema.Attribute.Required;
     impact: Schema.Attribute.JSON;
     pdf: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    total_like: Schema.Attribute.BigInteger & Schema.Attribute.DefaultTo<'0'>;
-    total_quantity_used: Schema.Attribute.BigInteger &
-      Schema.Attribute.DefaultTo<'0'>;
+    total_like: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    total_quantity_used: Schema.Attribute.Integer &
+      Schema.Attribute.DefaultTo<0>;
     user: Schema.Attribute.Relation<
       'oneToMany',
       'api::user-ai-app.user-ai-app'
