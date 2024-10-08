@@ -24,7 +24,14 @@ module.exports = createCoreService(
         page = 1,
         limit = 10,
       } = ctx.request.query;
-      const { aiModelId } = ctx.params;
+      const { ai_model_document_id } = ctx.params;
+      const entryAIModel =  await strapi.db
+      .connection("ai_models")
+      .whereRaw("document_id = :ai_model_document_id AND published_at IS NOT NULL", {
+        ai_model_document_id,
+      })
+      .first();
+      const aiModelId = entryAIModel.id;
       const query = `SELECT p.id as id, p.document_id as document_id, p.name as name, p.scope as scope,
                      p.po as po, f_pdf.url as pdf_url, f_pdf.formats as pdf,
                      p.html_url as html_url, p.bu as bu, p.prosensity_status as prosensity_status,
@@ -48,7 +55,7 @@ module.exports = createCoreService(
         `;
       const [entries, total] = await Promise.all([
         strapi.db.connection.raw(query, [
-          +aiModelId,
+          aiModelId,
           `%${keyword.trim().toLowerCase()}%`,
           `%${keyword.trim().toLowerCase()}%`,
           `%${keyword.trim().toLowerCase()}%`,
@@ -56,7 +63,7 @@ module.exports = createCoreService(
           (page - 1) * limit,
         ]),
         strapi.db.connection.raw(countQuery, [
-          +aiModelId,
+          aiModelId,
           `%${keyword.trim().toLowerCase()}%`,
           `%${keyword.trim().toLowerCase()}%`,
           `%${keyword.trim().toLowerCase()}%`,
@@ -69,7 +76,13 @@ module.exports = createCoreService(
       };
     },
     async findOneById(ctx) {
-      const { id } = ctx.params;
+      const { document_id } = ctx.params;
+      const entryAIPropensityModel =  await strapi.db
+      .connection("ai_propensity_models")
+      .whereRaw("document_id = :document_id AND published_at IS NOT NULL", {
+        document_id,
+      })
+      .first();
       const query = `SELECT p.id as id, p.document_id as document_id, p.name as name, p.scope as scope,
                      p.po as po, f_pdf.url as pdf_url, f_pdf.formats as pdf,
                      p.html_url as html_url, p.bu as bu, p.prosensity_status as prosensity_status,
@@ -85,7 +98,7 @@ module.exports = createCoreService(
                     WHERE p.id = ?
         `;
 
-      const entries = await strapi.db.connection.raw(query, [+id]);
+      const entries = await strapi.db.connection.raw(query, [entryAIPropensityModel.id]);
 
       return {
         ...createResponse(parseEntries(entries)[0]),

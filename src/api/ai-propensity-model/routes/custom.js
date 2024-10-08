@@ -4,7 +4,7 @@ module.exports = {
   routes: [
     {
       method: "GET",
-      path: "/ai-propensity-model/:aiModelId/all",
+      path: "/ai-propensity-model/:ai_model_document_id/all",
       handler: "ai-propensity-model.findAll",
       config: {
         middlewares: [authUser],
@@ -12,7 +12,7 @@ module.exports = {
     },
     {
       method: "GET",
-      path: "/ai-propensity-model/:id",
+      path: "/ai-propensity-model/:document_id",
       handler: "ai-propensity-model.findOneById",
       config: {
         middlewares: [authUser],
