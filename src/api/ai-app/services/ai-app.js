@@ -44,6 +44,7 @@ module.exports = createCoreService("api::ai-app.ai-app", ({ strapi }) => ({
 
         try {
             const res = await axios({
+                timeout: 120000, // 2 minutes
                 method: entryApi.method,
                 url: entryApi.endpoint,
                 data: {
