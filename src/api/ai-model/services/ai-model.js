@@ -64,7 +64,7 @@ module.exports = createCoreService("api::ai-model.ai-model", ({ strapi }) => ({
     };
   },
   async findOneById(ctx) {
-    const { id } = ctx.params;
+    const { document_id } = ctx.params;
     const query = `SELECT ai.id as id, ai.document_id as document_id, ai.name as name, ai.impact as impact, 
                       ai.purpose as purpose, ai.type as type,
                       f.url as url, f.formats as image,
@@ -73,10 +73,10 @@ module.exports = createCoreService("api::ai-model.ai-model", ({ strapi }) => ({
                     FROM ai_models ai
                     LEFT JOIN files_related_mph fr ON fr.related_id = ai.id AND fr.related_type = 'api::ai-model.ai-model' AND fr.field = 'cover'
                     LEFT JOIN files f ON f.id = fr.file_id 
-                    WHERE ai.published_at IS NOT NULL AND ai.id = ?
+                    WHERE ai.published_at IS NOT NULL AND ai.document_id = ?
         `;
 
-    const entry = await strapi.db.connection.raw(query, [+id]);
+    const entry = await strapi.db.connection.raw(query, [document_id]);
     return createResponse(parseEntries(entry)[0]);
   },
 }));

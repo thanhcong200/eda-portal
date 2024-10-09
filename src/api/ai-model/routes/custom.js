@@ -12,7 +12,7 @@ module.exports = {
     },
     {
       method: "GET",
-      path: "/ai-model/:id",
+      path: "/ai-model/:document_id",
       handler: "ai-model.findOneById",
       config: {
         middlewares: [authUser],
