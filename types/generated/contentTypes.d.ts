@@ -598,7 +598,6 @@ export interface ApiAiAppCategoryAiAppCategory
   };
   attributes: {
     name: Schema.Attribute.String;
-    type: Schema.Attribute.Enumeration<['file-to-text', 'voice-to-text']>;
     image: Schema.Attribute.Media<'images' | 'files'> &
       Schema.Attribute.Required;
     ai_apps: Schema.Attribute.Relation<'oneToMany', 'api::ai-app.ai-app'>;
