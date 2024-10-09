@@ -12,7 +12,7 @@ module.exports = createCoreController('api::ai-app.ai-app', ({ strapi }) => ({
             .service("api::ai-app.ai-app")
             .generate(ctx);
         if(result.status === 400) 
-            return ctx.badRequest(JSON.stringify(result.data));
+            return ctx.badRequest("Extract table error!");
         ctx.send(result);
     },
     async like(ctx) {
