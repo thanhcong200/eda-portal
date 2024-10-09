@@ -10,7 +10,6 @@ const {
 const axios = require("axios");
 const utils = require("@strapi/utils");
 const { HttpStatusCode } = require("axios");
-const envConfig = require("../../../../config/env-config");
 const { NotFoundError } = utils.errors;
 
 /**
@@ -35,10 +34,6 @@ module.exports = createCoreService("api::ai-app.ai-app", ({ strapi }) => ({
         if (!entryApi || !Object.keys(entryApi).length) {
             throw new NotFoundError();
         }
-        /*
-        const form = new FormData();
-        form.append("file", fs.createReadStream("public" + url));
-        */
         let data;
         let error;
 
@@ -48,7 +43,7 @@ module.exports = createCoreService("api::ai-app.ai-app", ({ strapi }) => ({
                 method: entryApi.method,
                 url: entryApi.endpoint,
                 data: {
-                    url: envConfig.BASE_ENDPOINT + url
+                    url
                 },
                 headers: {
                     // ...form.getHeaders(),

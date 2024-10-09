@@ -2,7 +2,6 @@ module.exports = {
   // Server
   HOST: process.env.HOST || "0.0.0.0",
   PORT: process.env.PORT || 1337,
-  BASE_ENDPOINT: process.env.BASE_ENDPOINT,
 
   // Secrets
   APP_KEYS: process.env.APP_KEYS,
