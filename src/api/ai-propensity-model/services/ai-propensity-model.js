@@ -90,7 +90,7 @@ module.exports = createCoreService(
                     p.updated_at as updated_at, p.created_at as created_at, p.published_at as published_at, 
                     p.locale as locale 
                     FROM ai_propensity_models p
-                    INNER JOIN ai_propensity_models_ai_models_lnk lnk ON lnk.ai_propensity_model_id = p.id AND lnk.ai_model_id = ?
+                    INNER JOIN ai_propensity_models_ai_models_lnk lnk ON lnk.ai_propensity_model_id = p.id
                     LEFT JOIN files_related_mph fr_icon ON fr_icon.related_id = p.id AND fr_icon.related_type = 'api::ai-propensity-model.ai-propensity-model' AND fr_icon.field = 'icon'
                     LEFT JOIN files_related_mph fr_pdf ON fr_pdf.related_id = p.id AND fr_pdf.related_type = 'api::ai-propensity-model.ai-propensity-model' AND fr_pdf.field = 'pdf'
                     LEFT JOIN files f_icon ON f_icon.id = fr_icon.file_id 
