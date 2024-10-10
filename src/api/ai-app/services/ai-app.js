@@ -142,7 +142,6 @@ module.exports = createCoreService("api::ai-app.ai-app", ({ strapi }) => ({
                     },
                     data: {
                         is_like: quantity > 0 ? true : false,  // Setting the is_save_bookmark value
-                        updated_by_id: userId,
                         publishedAt: new Date(),    // Optional: You can remove if Strapi handles it automatically
                     },
                 });
@@ -200,7 +199,6 @@ module.exports = createCoreService("api::ai-app.ai-app", ({ strapi }) => ({
                     },
                     data: {
                         is_save_bookmark,  // Setting the is_save_bookmark value
-                        updated_by_id: userId,
                         publishedAt: new Date(),    // Optional: You can remove if Strapi handles it automatically
                     },
                 });
