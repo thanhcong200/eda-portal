@@ -39,7 +39,7 @@ module.exports = createCoreService("api::ai-app.ai-app", ({ strapi }) => ({
 
         try {
             const res = await axios({
-                timeout: 120000, // 2 minutes
+                timeout: 180000, // 2 minutes
                 method: entryApi.method,
                 url: entryApi.endpoint,
                 data: {
@@ -73,8 +73,6 @@ module.exports = createCoreService("api::ai-app.ai-app", ({ strapi }) => ({
                         user: ctx.state.user.id, // user ID
                         ai_app: entryApi.ai_app_id, // ai-app ID
                         published_at: new Date(),
-                        created_by_id: userId,
-                        updated_by_id: userId,
                     },
                 });
 
@@ -86,6 +84,7 @@ module.exports = createCoreService("api::ai-app.ai-app", ({ strapi }) => ({
             }
         } catch (err) {
             error = JSON.stringify(err);
+            console.log(error)
         }
 
         if (error) {
@@ -130,8 +129,6 @@ module.exports = createCoreService("api::ai-app.ai-app", ({ strapi }) => ({
                         ai_app: aiApp.id, // Relation to the ai-app document ID
                         user: userId, // Relation to the user document ID
                         is_like: quantity > 0 ? true : false, // Set the default value for is_save field
-                        created_by_id: userId,
-                        updated_by_id: userId,
                         publishedAt: new Date(),
                     },
                 });
@@ -190,8 +187,6 @@ module.exports = createCoreService("api::ai-app.ai-app", ({ strapi }) => ({
                         ai_app: aiApp.id, // Relation to the ai-app document ID
                         user: userId, // Relation to the user document ID
                         is_save_bookmark, // Set the default value for is_save field
-                        created_by_id: userId,
-                        updated_by_id: userId,
                         publishedAt: new Date(),
                     },
                 });
