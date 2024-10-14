@@ -74,13 +74,7 @@ module.exports = ({ strapi }) => ({
   async logout(ctx) {
     const { accessToken } = ctx.request.body;
     const decoded = await verifyToken(accessToken, TokenType.ACCESS_TOKEN);
-    try {
-      if (decoded) {
-        await this.destroyAllToken(decoded.sub);
-      }
-    }
-    catch (err) {
-    }
+    await this.destroyAllToken(decoded.sub);
     return createResponse(null)
   },
 
