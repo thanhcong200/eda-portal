@@ -66,14 +66,21 @@ module.exports = ({ strapi }) => ({
   async refreshToken(ctx) {
     const { refreshToken } = ctx.request.body;
     const decoded = await verifyToken(refreshToken, TokenType.REFRESH_TOKEN);
-    const tokens =await this.renewToken(decoded.sub);
+    if (!decoded) return ctx.unauthorized("Invalid token");
+    const tokens = await this.renewToken(decoded.sub);
     return createResponse(tokens)
   },
 
   async logout(ctx) {
-    const {accessToken} = ctx.request.body;
+    const { accessToken } = ctx.request.body;
     const decoded = await verifyToken(accessToken, TokenType.ACCESS_TOKEN);
-    await this.destroyAllToken(decoded.sub);
+    try {
+      if (decoded) {
+        await this.destroyAllToken(decoded.sub);
+      }
+    }
+    catch (err) {
+    }
     return createResponse(null)
   },
 

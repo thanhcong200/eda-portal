@@ -76,7 +76,7 @@ const verifyToken = async (token, type) => {
         is_delete: false,
       },
     });
-  if (!isExistToken) throw new UnauthorizedError();
+  if (!isExistToken) return false;
   return decoded;
 };
 

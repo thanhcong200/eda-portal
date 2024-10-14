@@ -10,6 +10,7 @@ const authUser = async (ctx, next) => {
 
   try {
     const decoded = await verifyToken(token, TokenType.ACCESS_TOKEN);
+    if(!decoded) return ctx.unauthorized("Invalid token");
     ctx.state.user = decoded; // Attach user info to context for later use
     await next(); // Proceed to the next middleware or route handler
   } catch (err) {
