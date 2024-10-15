@@ -12,6 +12,12 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "ai_models": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::ai-model.ai-model",
+      "inversedBy": "propensities"
+    },
     "name": {
       "type": "string",
       "required": true
@@ -32,12 +38,6 @@
         "images",
         "files"
       ]
-    },
-    "ai_models": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::ai-model.ai-model",
-      "inversedBy": "propensities"
     },
     "html_url": {
       "type": "string"

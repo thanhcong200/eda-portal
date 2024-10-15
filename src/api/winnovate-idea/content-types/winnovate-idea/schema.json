@@ -1,0 +1,67 @@
+{
+  "kind": "collectionType",
+  "collectionName": "winnovate_ideas",
+  "info": {
+    "singularName": "winnovate-idea",
+    "pluralName": "winnovate-ideas",
+    "displayName": "Winnovate Idea",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "group": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::winnovate-group.winnovate-group",
+      "inversedBy": "ideas"
+    },
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::winnovate-category.winnovate-category",
+      "inversedBy": "ideas"
+    },
+    "topic": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::winnovate-topic.winnovate-topic",
+      "inversedBy": "ideas"
+    },
+    "bu": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::winnovate-bu.winnovate-bu",
+      "inversedBy": "ideas"
+    },
+    "name": {
+      "type": "text"
+    },
+    "email": {
+      "type": "string"
+    },
+    "score": {
+      "type": "integer"
+    },
+    "target_customer": {
+      "type": "text"
+    },
+    "desc_target_customer": {
+      "type": "text"
+    },
+    "solution": {
+      "type": "json"
+    },
+    "problem_statement": {
+      "type": "text"
+    },
+    "idea_owner": {
+      "type": "string"
+    },
+    "pdf_url": {
+      "type": "string"
+    }
+  }
+}

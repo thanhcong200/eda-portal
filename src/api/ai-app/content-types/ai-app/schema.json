@@ -12,22 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "name": {
-      "type": "string",
-      "required": true
-    },
-    "short_desc": {
-      "type": "text"
-    },
-    "image": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "files",
-        "images"
-      ]
-    },
     "ai_app_api": {
       "type": "relation",
       "relation": "oneToOne",
@@ -45,6 +29,28 @@
       "relation": "manyToOne",
       "target": "api::ai-app-category.ai-app-category",
       "inversedBy": "ai_apps"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::user-ai-app.user-ai-app",
+      "mappedBy": "ai_app"
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "short_desc": {
+      "type": "text"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "files",
+        "images"
+      ]
     },
     "bu": {
       "type": "string",
@@ -78,12 +84,6 @@
     "total_quantity_used": {
       "type": "integer",
       "default": 0
-    },
-    "user": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::user-ai-app.user-ai-app",
-      "mappedBy": "ai_app"
     }
   }
 }
