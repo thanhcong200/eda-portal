@@ -482,6 +482,10 @@ export interface PluginUsersPermissionsUser
       'oneToMany',
       'api::user-ai-app.user-ai-app'
     >;
+    bookmarks: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::winnovate-idea-bookmark.winnovate-idea-bookmark'
+    >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -927,9 +931,9 @@ export interface ApiWinnovateGroupWinnovateGroup
     draftAndPublish: true;
   };
   attributes: {
-    ideas: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::winnovate-idea.winnovate-idea'
+    topics: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::winnovate-topic.winnovate-topic'
     >;
     name: Schema.Attribute.String;
     color: Schema.Attribute.String;
@@ -966,10 +970,6 @@ export interface ApiWinnovateIdeaWinnovateIdea
     draftAndPublish: true;
   };
   attributes: {
-    group: Schema.Attribute.Relation<
-      'manyToOne',
-      'api::winnovate-group.winnovate-group'
-    >;
     category: Schema.Attribute.Relation<
       'manyToOne',
       'api::winnovate-category.winnovate-category'
@@ -987,10 +987,15 @@ export interface ApiWinnovateIdeaWinnovateIdea
     score: Schema.Attribute.Integer;
     target_customer: Schema.Attribute.Text;
     desc_target_customer: Schema.Attribute.Text;
-    solution: Schema.Attribute.JSON;
     problem_statement: Schema.Attribute.Text;
     idea_owner: Schema.Attribute.String;
     pdf_url: Schema.Attribute.String;
+    solution: Schema.Attribute.Text;
+    bookmarks: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::winnovate-idea-bookmark.winnovate-idea-bookmark'
+    >;
+    priority: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<2>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -1002,6 +1007,42 @@ export interface ApiWinnovateIdeaWinnovateIdea
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::winnovate-idea.winnovate-idea'
+    >;
+  };
+}
+
+export interface ApiWinnovateIdeaBookmarkWinnovateIdeaBookmark
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'winnovate_idea_bookmarks';
+  info: {
+    singularName: 'winnovate-idea-bookmark';
+    pluralName: 'winnovate-idea-bookmarks';
+    displayName: 'Winnovate Idea Bookmark';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    idea: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::winnovate-idea.winnovate-idea'
+    >;
+    user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    is_save: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::winnovate-idea-bookmark.winnovate-idea-bookmark'
     >;
   };
 }
@@ -1019,6 +1060,10 @@ export interface ApiWinnovateTopicWinnovateTopic
     draftAndPublish: true;
   };
   attributes: {
+    groups: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::winnovate-group.winnovate-group'
+    >;
     ideas: Schema.Attribute.Relation<
       'oneToMany',
       'api::winnovate-idea.winnovate-idea'
@@ -1428,6 +1473,7 @@ declare module '@strapi/strapi' {
       'api::winnovate-category.winnovate-category': ApiWinnovateCategoryWinnovateCategory;
       'api::winnovate-group.winnovate-group': ApiWinnovateGroupWinnovateGroup;
       'api::winnovate-idea.winnovate-idea': ApiWinnovateIdeaWinnovateIdea;
+      'api::winnovate-idea-bookmark.winnovate-idea-bookmark': ApiWinnovateIdeaBookmarkWinnovateIdeaBookmark;
       'api::winnovate-topic.winnovate-topic': ApiWinnovateTopicWinnovateTopic;
       'admin::permission': AdminPermission;
       'admin::user': AdminUser;

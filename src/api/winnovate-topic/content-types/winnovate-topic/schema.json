@@ -12,6 +12,12 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "groups": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::winnovate-group.winnovate-group",
+      "inversedBy": "topics"
+    },
     "ideas": {
       "type": "relation",
       "relation": "oneToMany",

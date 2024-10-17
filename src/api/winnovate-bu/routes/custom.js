@@ -16,7 +16,8 @@ module.exports = {
       path: "/winnovate-bu/:document_id",
       handler: "winnovate-bu.findOneById",
       config: {
-        middlewares: [authUser],
+        auth: false,
+        // middlewares: [authUser],
       },
     },
   ],

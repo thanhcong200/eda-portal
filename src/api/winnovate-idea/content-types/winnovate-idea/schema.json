@@ -12,12 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "group": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::winnovate-group.winnovate-group",
-      "inversedBy": "ideas"
-    },
     "category": {
       "type": "relation",
       "relation": "manyToOne",
@@ -51,9 +45,6 @@
     "desc_target_customer": {
       "type": "text"
     },
-    "solution": {
-      "type": "json"
-    },
     "problem_statement": {
       "type": "text"
     },
@@ -62,6 +53,19 @@
     },
     "pdf_url": {
       "type": "string"
+    },
+    "solution": {
+      "type": "text"
+    },
+    "bookmarks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::winnovate-idea-bookmark.winnovate-idea-bookmark",
+      "mappedBy": "idea"
+    },
+    "priority": {
+      "type": "integer",
+      "default": 2
     }
   }
 }

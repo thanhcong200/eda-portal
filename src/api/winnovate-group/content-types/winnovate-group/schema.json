@@ -11,11 +11,11 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "ideas": {
+    "topics": {
       "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::winnovate-idea.winnovate-idea",
-      "mappedBy": "group"
+      "relation": "manyToMany",
+      "target": "api::winnovate-topic.winnovate-topic",
+      "mappedBy": "groups"
     },
     "name": {
       "type": "string"

@@ -1,6 +1,10 @@
 const reader = require("xlsx");
 
-const readDataFromWinnovateFile = async () => {
+const readDataFromWinnovateFile = async (strapi) => {
+  // const models = await strapi.db.connection.raw(
+  //   `SELECT * FROM winnovate_categories`
+  // );
+  // console.log(models);
   const file = reader.readFile("src/seeder/data/241015_WINNOVATE.xlsx");
   let data = [];
   const sheets = file.SheetNames;
@@ -14,4 +18,6 @@ const readDataFromWinnovateFile = async () => {
   console.log(data);
 };
 
-readDataFromWinnovateFile();
+module.exports = {
+  readDataFromWinnovateFile,
+};
