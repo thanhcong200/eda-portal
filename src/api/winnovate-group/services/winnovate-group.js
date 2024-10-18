@@ -48,7 +48,7 @@ module.exports = createCoreService(
           document_id: null,
           name: "All",
           color: "#FF6A00",
-          url: "",
+          url: "/uploads/all_194b9a6997.png",
           total_idea: count,
         },
         ...parseEntries(entries),

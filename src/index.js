@@ -1,5 +1,6 @@
-'use strict';
+"use strict";
 
+const envConfig = require("../config/env-config");
 const { readDataFromWinnovateFile } = require("./seeder");
 
 module.exports = {
@@ -19,6 +20,8 @@ module.exports = {
    * run jobs, or perform some special logic.
    */
   async bootstrap({ strapi }) {
-    // await readDataFromWinnovateFile(strapi);
+    if (envConfig.ENABLE_SEEDER === 1) {
+      await readDataFromWinnovateFile(strapi);
+    }
   },
 };

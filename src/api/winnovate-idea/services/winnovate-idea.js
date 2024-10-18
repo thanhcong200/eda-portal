@@ -44,9 +44,13 @@ module.exports = createCoreService(
                         INNER JOIN winnovate_idea_bookmarks_user_lnk user_lnk ON user_lnk.winnovate_idea_bookmark_id = idea_lnk.winnovate_idea_bookmark_id AND user_lnk.user_id = ${userId}
                         WHERE bookmark.published_at IS NOT NULL
                       )
-                      SELECT idea.*, idea_bookmark.is_save as is_save_bookmark 
+                      SELECT idea.*, idea_bookmark.is_save as is_save_bookmark, topic.name as topic, bu.name as bu
                       FROM winnovate_ideas idea
                       LEFT JOIN idea_bookmark ON idea_bookmark.idea_id = idea.id
+                      LEFT JOIN winnovate_ideas_topic_lnk topic_lnk ON topic_lnk.winnovate_idea_id = idea.id
+                      LEFT JOIN winnovate_topics topic ON topic.id = topic_lnk.winnovate_topic_id AND topic.published_at IS NOT NULL
+                      LEFT JOIN winnovate_ideas_bu_lnk bu_lnk ON bu_lnk.winnovate_idea_id = idea.id
+                      LEFT JOIN winnovate_bus bu ON bu.id = bu_lnk.winnovate_bu_id AND bu.published_at IS NOT NULL
                       WHERE idea.id IN (SELECT id FROM idea_ids) AND LOWER(idea.name) LIKE ? ${isSaveBookmark == '1' ? ` AND idea_bookmark.is_save = ${true}` : ""}
                       ORDER BY idea.priority ASC, idea.score DESC, idea.${sortField} ${sortValue}
                       LIMIT ? OFFSET ?

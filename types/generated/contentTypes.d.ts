@@ -983,13 +983,13 @@ export interface ApiWinnovateIdeaWinnovateIdea
       'api::winnovate-bu.winnovate-bu'
     >;
     name: Schema.Attribute.Text;
-    email: Schema.Attribute.String;
-    score: Schema.Attribute.Integer;
+    email: Schema.Attribute.Text;
+    score: Schema.Attribute.Decimal;
     target_customer: Schema.Attribute.Text;
     desc_target_customer: Schema.Attribute.Text;
     problem_statement: Schema.Attribute.Text;
-    idea_owner: Schema.Attribute.String;
-    pdf_url: Schema.Attribute.String;
+    idea_owner: Schema.Attribute.Text;
+    pdf_url: Schema.Attribute.Text;
     solution: Schema.Attribute.Text;
     bookmarks: Schema.Attribute.Relation<
       'oneToMany',
