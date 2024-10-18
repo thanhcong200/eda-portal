@@ -34,10 +34,10 @@
       "type": "text"
     },
     "email": {
-      "type": "string"
+      "type": "text"
     },
     "score": {
-      "type": "integer"
+      "type": "decimal"
     },
     "target_customer": {
       "type": "text"
@@ -49,10 +49,10 @@
       "type": "text"
     },
     "idea_owner": {
-      "type": "string"
+      "type": "text"
     },
     "pdf_url": {
-      "type": "string"
+      "type": "text"
     },
     "solution": {
       "type": "text"
