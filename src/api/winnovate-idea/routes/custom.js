@@ -7,8 +7,7 @@ module.exports = {
       path: "/winnovate-idea/all",
       handler: "winnovate-idea.findAll",
       config: {
-        auth: false
-        // middlewares: [authUser],
+        middlewares: [authUser],
       },
     },
     {
@@ -16,8 +15,7 @@ module.exports = {
       path: "/winnovate-idea/group",
       handler: "winnovate-idea.findGroup",
       config: {
-        auth: false
-        // middlewares: [authUser],
+        middlewares: [authUser],
       },
     },
     {
@@ -25,8 +23,7 @@ module.exports = {
       path: "/winnovate-idea/bu",
       handler: "winnovate-idea.findBU",
       config: {
-        auth: false
-        // middlewares: [authUser],
+        middlewares: [authUser],
       },
     },
     {
@@ -34,8 +31,7 @@ module.exports = {
       path: "/winnovate-idea/topic",
       handler: "winnovate-idea.findTopic",
       config: {
-        auth: false
-        // middlewares: [authUser],
+        middlewares: [authUser],
       },
     },
     {
@@ -51,8 +47,7 @@ module.exports = {
       path: "/winnovate-idea/:document_id",
       handler: "winnovate-idea.findOneById",
       config: {
-        auth: false
-        // middlewares: [authUser],
+        middlewares: [authUser],
       },
     },
   ],

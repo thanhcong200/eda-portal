@@ -7,8 +7,7 @@ module.exports = {
       path: "/winnovate-group/all",
       handler: "winnovate-group.findAll",
       config: {
-        auth: false,
-        // middlewares: [authUser],
+        middlewares: [authUser],
       },
     },
     {
@@ -16,8 +15,7 @@ module.exports = {
       path: "/winnovate-group/:document_id",
       handler: "winnovate-group.findOneById",
       config: {
-        auth: false,
-        // middlewares: [authUser],
+        middlewares: [authUser],
       },
     },
   ],

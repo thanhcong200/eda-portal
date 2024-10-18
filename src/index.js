@@ -19,6 +19,6 @@ module.exports = {
    * run jobs, or perform some special logic.
    */
   async bootstrap({ strapi }) {
-    await readDataFromWinnovateFile(strapi);
+    // await readDataFromWinnovateFile(strapi);
   },
 };

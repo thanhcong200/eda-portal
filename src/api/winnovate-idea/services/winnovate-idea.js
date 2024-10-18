@@ -17,11 +17,13 @@ module.exports = createCoreService(
         groupDocumentId = "",
         topicDocumentId = "",
         buDocumentId = "",
+        isSaveBookmark = '',
         sortField = "created_at",
         sortValue = "DESC",
         page = 1,
         limit = 10,
       } = ctx.request.query;
+      const userId = ctx.state.user.id;
       const query = `WITH idea_ids AS (
                         SELECT DISTINCT(idea.id) as id FROM winnovate_ideas idea
                         INNER JOIN winnovate_ideas_topic_lnk topic_lnk ON topic_lnk.winnovate_idea_id = idea.id
@@ -34,30 +36,47 @@ module.exports = createCoreService(
                         INNER JOIN winnovate_bus bu ON bu.id = bu_lnk.winnovate_bu_id  AND bu.published_at IS NOT NULL 
                           ${buDocumentId ? ` AND bu.document_id = '${buDocumentId}' `: ""}
                         WHERE idea.published_at IS NOT NULL
+                      ),
+                      idea_bookmark AS (
+                        SELECT idea_lnk.winnovate_idea_id as idea_id, bookmark.is_save as is_save 
+                        FROM winnovate_idea_bookmarks bookmark 
+                        INNER JOIN winnovate_idea_bookmarks_idea_lnk idea_lnk ON idea_lnk.winnovate_idea_bookmark_id = bookmark.id
+                        INNER JOIN winnovate_idea_bookmarks_user_lnk user_lnk ON user_lnk.winnovate_idea_bookmark_id = idea_lnk.winnovate_idea_bookmark_id AND user_lnk.user_id = ${userId}
+                        WHERE bookmark.published_at IS NOT NULL
                       )
-                      SELECT idea.* FROM winnovate_ideas idea
-                      WHERE idea.id IN (SELECT id FROM idea_ids) AND LOWER(idea.name) LIKE ?
+                      SELECT idea.*, idea_bookmark.is_save as is_save_bookmark 
+                      FROM winnovate_ideas idea
+                      LEFT JOIN idea_bookmark ON idea_bookmark.idea_id = idea.id
+                      WHERE idea.id IN (SELECT id FROM idea_ids) AND LOWER(idea.name) LIKE ? ${isSaveBookmark == '1' ? ` AND idea_bookmark.is_save = ${true}` : ""}
                       ORDER BY idea.priority ASC, idea.score DESC, idea.${sortField} ${sortValue}
                       LIMIT ? OFFSET ?
 
       `;
       const countQuery  = `WITH idea_ids AS (
-        SELECT DISTINCT(idea.id) as id FROM winnovate_ideas idea
-        INNER JOIN winnovate_ideas_topic_lnk topic_lnk ON topic_lnk.winnovate_idea_id = idea.id
-        INNER JOIN winnovate_topics topic ON topic.id = topic_lnk.winnovate_topic_id AND topic.published_at IS NOT NULL 
-          ${topicDocumentId ? ` AND topic.document_id = '${topicDocumentId}' `: ""}
-        INNER JOIN winnovate_topics_groups_lnk group_lnk ON group_lnk.winnovate_topic_id = topic.id
-        INNER JOIN winnovate_groups groups  ON groups.id = group_lnk.winnovate_group_id AND groups.published_at IS NOT NULL 
-          ${groupDocumentId? ` AND groups.document_id = '${groupDocumentId}' `: ""}
-        INNER JOIN winnovate_ideas_bu_lnk bu_lnk ON bu_lnk.winnovate_idea_id = idea.id
-        INNER JOIN winnovate_bus bu ON bu.id = bu_lnk.winnovate_bu_id  AND bu.published_at IS NOT NULL 
-          ${buDocumentId ? ` AND bu.document_id = '${buDocumentId}' `: ""}
-        WHERE idea.published_at IS NOT NULL
-      )
-      SELECT COUNT(1) AS count FROM winnovate_ideas idea
-      WHERE idea.id IN (SELECT id FROM idea_ids) AND LOWER(idea.name) LIKE ?
-
-`;
+                            SELECT DISTINCT(idea.id) as id FROM winnovate_ideas idea
+                            INNER JOIN winnovate_ideas_topic_lnk topic_lnk ON topic_lnk.winnovate_idea_id = idea.id
+                            INNER JOIN winnovate_topics topic ON topic.id = topic_lnk.winnovate_topic_id AND topic.published_at IS NOT NULL 
+                              ${topicDocumentId ? ` AND topic.document_id = '${topicDocumentId}' `: ""}
+                            INNER JOIN winnovate_topics_groups_lnk group_lnk ON group_lnk.winnovate_topic_id = topic.id
+                            INNER JOIN winnovate_groups groups  ON groups.id = group_lnk.winnovate_group_id AND groups.published_at IS NOT NULL 
+                              ${groupDocumentId? ` AND groups.document_id = '${groupDocumentId}' `: ""}
+                            INNER JOIN winnovate_ideas_bu_lnk bu_lnk ON bu_lnk.winnovate_idea_id = idea.id
+                            INNER JOIN winnovate_bus bu ON bu.id = bu_lnk.winnovate_bu_id  AND bu.published_at IS NOT NULL 
+                              ${buDocumentId ? ` AND bu.document_id = '${buDocumentId}' `: ""}
+                            WHERE idea.published_at IS NOT NULL
+                          ),
+                          idea_bookmark AS (
+                            SELECT idea_lnk.winnovate_idea_id as idea_id, bookmark.is_save as is_save 
+                            FROM winnovate_idea_bookmarks bookmark 
+                            INNER JOIN winnovate_idea_bookmarks_idea_lnk idea_lnk ON idea_lnk.winnovate_idea_bookmark_id = bookmark.id
+                            INNER JOIN winnovate_idea_bookmarks_user_lnk user_lnk ON user_lnk.winnovate_idea_bookmark_id = idea_lnk.winnovate_idea_bookmark_id AND user_lnk.user_id = ${userId}
+                            WHERE bookmark.published_at IS NOT NULL
+                          )
+                          SELECT COUNT(1) AS count
+                          FROM winnovate_ideas idea
+                          LEFT JOIN idea_bookmark ON idea_bookmark.idea_id = idea.id
+                          WHERE idea.id IN (SELECT id FROM idea_ids) AND LOWER(idea.name) LIKE ? ${isSaveBookmark == '1' ? ` AND idea_bookmark.is_save = ${true}` : ""}
+                    `;
       const [entries, total] = await Promise.all([
         strapi.db.connection.raw(query, [`%${keyword.trim().toLowerCase()}%`, limit, (page-1)*limit]),
         strapi.db.connection.raw(countQuery, [`%${keyword.trim().toLowerCase()}%`])
@@ -102,7 +121,12 @@ module.exports = createCoreService(
       return createResponse(parseEntries(entries));
     },
     async findOneById(ctx) {
-      return { detail: 1 };
+      const { document_id } = ctx.params;
+      const query = `SELECT * FROM winnovate_ideas 
+                    WHERE document_id = ? AND published_at IS NOT NULL 
+      `
+      const entries = await strapi.db.connection.raw(query, [document_id]);
+      return createResponse(parseEntries(entries)[0])
     },
     async saveBookmark(ctx) {
       const userId = ctx.state.user.id;
