@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "winnovate_topics",
+  "info": {
+    "singularName": "winnovate-topic",
+    "pluralName": "winnovate-topics",
+    "displayName": "Winnovate Topic",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "groups": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::winnovate-group.winnovate-group",
+      "inversedBy": "topics"
+    },
+    "ideas": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::winnovate-idea.winnovate-idea",
+      "mappedBy": "topic"
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "color": {
+      "type": "string"
+    }
+  }
+}

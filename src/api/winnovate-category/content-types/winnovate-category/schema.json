@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "winnovate_categories",
+  "info": {
+    "singularName": "winnovate-category",
+    "pluralName": "winnovate-categories",
+    "displayName": "Winnovate Category"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "ideas": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::winnovate-idea.winnovate-idea",
+      "mappedBy": "category"
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}

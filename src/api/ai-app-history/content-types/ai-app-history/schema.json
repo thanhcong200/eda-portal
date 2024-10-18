@@ -12,13 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "result": {
-      "type": "json"
-    },
-    "origin_url": {
-      "type": "string",
-      "required": true
-    },
     "user": {
       "type": "relation",
       "relation": "manyToOne",
@@ -30,6 +23,13 @@
       "relation": "manyToOne",
       "target": "api::ai-app.ai-app",
       "inversedBy": "ai_app_histories"
+    },
+    "result": {
+      "type": "json"
+    },
+    "origin_url": {
+      "type": "string",
+      "required": true
     }
   }
 }

@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "winnovate_groups",
+  "info": {
+    "singularName": "winnovate-group",
+    "pluralName": "winnovate-groups",
+    "displayName": "Winnovate Group"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "topics": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::winnovate-topic.winnovate-topic",
+      "mappedBy": "groups"
+    },
+    "name": {
+      "type": "string"
+    },
+    "color": {
+      "type": "string"
+    },
+    "icon": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "bus": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::winnovate-bu.winnovate-bu",
+      "mappedBy": "groups"
+    }
+  }
+}

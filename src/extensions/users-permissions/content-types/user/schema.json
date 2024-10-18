@@ -82,6 +82,12 @@
       "relation": "oneToMany",
       "target": "api::user-ai-app.user-ai-app",
       "mappedBy": "user"
+    },
+    "bookmarks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::winnovate-idea-bookmark.winnovate-idea-bookmark",
+      "mappedBy": "user"
     }
   }
 }

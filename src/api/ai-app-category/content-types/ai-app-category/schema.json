@@ -12,6 +12,12 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "ai_apps": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::ai-app.ai-app",
+      "mappedBy": "ai_app_category"
+    },
     "name": {
       "type": "string"
     },
@@ -23,12 +29,6 @@
         "images",
         "files"
       ]
-    },
-    "ai_apps": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::ai-app.ai-app",
-      "mappedBy": "ai_app_category"
     }
   }
 }

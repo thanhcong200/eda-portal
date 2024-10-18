@@ -12,6 +12,12 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "propensities": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::ai-propensity-model.ai-propensity-model",
+      "mappedBy": "ai_models"
+    },
     "name": {
       "type": "string",
       "required": true
@@ -44,12 +50,6 @@
         "strategy-innovation"
       ],
       "required": true
-    },
-    "propensities": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::ai-propensity-model.ai-propensity-model",
-      "mappedBy": "ai_models"
     }
   }
 }
