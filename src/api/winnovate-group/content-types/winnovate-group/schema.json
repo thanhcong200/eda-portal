@@ -17,6 +17,18 @@
       "target": "api::winnovate-topic.winnovate-topic",
       "mappedBy": "groups"
     },
+    "bus": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::winnovate-bu.winnovate-bu",
+      "mappedBy": "groups"
+    },
+    "ideas": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::winnovate-idea.winnovate-idea",
+      "mappedBy": "group"
+    },
     "name": {
       "type": "string"
     },
@@ -32,12 +44,6 @@
       ],
       "type": "media",
       "multiple": false
-    },
-    "bus": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::winnovate-bu.winnovate-bu",
-      "mappedBy": "groups"
     }
   }
 }

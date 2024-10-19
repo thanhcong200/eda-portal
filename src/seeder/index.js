@@ -53,14 +53,19 @@ const saveTopics = async (strapi, data) => {
 };
 
 const saveIdeas = async (strapi, data) => {
-  const [topics, category] = await Promise.all([
+  const [topics, category, groups] = await Promise.all([
     strapi.db.query("api::winnovate-topic.winnovate-topic").findMany({where: { publishedAt: { $eq: null } }}),
     strapi.db
       .query("api::winnovate-category.winnovate-category")
       .findOne({ where: { publishedAt: { $eq: null } } }),
+      strapi.db
+      .query("api::winnovate-group.winnovate-group")
+      .findMany({where: { publishedAt: { $eq: null } }}),
   ]);
   const topicMap = new Map();
   topics.map((ele) => topicMap.set(ele.name, ele.id));
+  const groupMap = new Map();
+  groups.map((ele) => groupMap.set(ele.name, ele.id));
   for (const idea of data) {
     if (!idea.name) continue;
     await strapi.db.query("api::winnovate-idea.winnovate-idea").create({
@@ -76,6 +81,7 @@ const saveIdeas = async (strapi, data) => {
         solution: idea.solution,
         priority: idea.priority,
         publishedAt: null,
+        group: groupMap.get(idea.group),
         category: category.id, // ID of the category
         topic: topicMap.get(idea.topic), // ID of the topic
         bu: 1, // ID of the business unit
