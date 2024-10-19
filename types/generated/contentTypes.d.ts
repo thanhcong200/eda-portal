@@ -935,13 +935,17 @@ export interface ApiWinnovateGroupWinnovateGroup
       'manyToMany',
       'api::winnovate-topic.winnovate-topic'
     >;
-    name: Schema.Attribute.String;
-    color: Schema.Attribute.String;
-    icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     bus: Schema.Attribute.Relation<
       'manyToMany',
       'api::winnovate-bu.winnovate-bu'
     >;
+    ideas: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::winnovate-idea.winnovate-idea'
+    >;
+    name: Schema.Attribute.String;
+    color: Schema.Attribute.String;
+    icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -974,6 +978,10 @@ export interface ApiWinnovateIdeaWinnovateIdea
       'manyToOne',
       'api::winnovate-category.winnovate-category'
     >;
+    group: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::winnovate-group.winnovate-group'
+    >;
     topic: Schema.Attribute.Relation<
       'manyToOne',
       'api::winnovate-topic.winnovate-topic'
@@ -981,6 +989,10 @@ export interface ApiWinnovateIdeaWinnovateIdea
     bu: Schema.Attribute.Relation<
       'manyToOne',
       'api::winnovate-bu.winnovate-bu'
+    >;
+    bookmarks: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::winnovate-idea-bookmark.winnovate-idea-bookmark'
     >;
     name: Schema.Attribute.Text;
     email: Schema.Attribute.Text;
@@ -991,10 +1003,6 @@ export interface ApiWinnovateIdeaWinnovateIdea
     idea_owner: Schema.Attribute.Text;
     pdf_url: Schema.Attribute.Text;
     solution: Schema.Attribute.Text;
-    bookmarks: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::winnovate-idea-bookmark.winnovate-idea-bookmark'
-    >;
     priority: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<2>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;

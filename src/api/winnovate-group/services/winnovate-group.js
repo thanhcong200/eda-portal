@@ -18,11 +18,9 @@ module.exports = createCoreService(
         sortValue = "DESC",
       } = ctx.request.query;
       const query = ` WITH idea AS (
-                            SELECT groups.id as group_id, COUNT(idea.id) as total_idea
+                            SELECT groups.id as group_id, COUNT(DISTINCT(idea.id)) as total_idea
                             FROM winnovate_groups groups
-                            INNER JOIN winnovate_topics_groups_lnk topic_lnk ON topic_lnk.winnovate_group_id = groups.id
-                            INNER JOIN winnovate_topics topic ON topic.id = topic_lnk.winnovate_topic_id AND topic.published_at IS NOT NULL
-                            INNER JOIN winnovate_ideas_topic_lnk idea_lnk ON idea_lnk.winnovate_topic_id = topic.id
+                            INNER JOIN winnovate_ideas_group_lnk idea_lnk ON idea_lnk.winnovate_group_id = groups.id
                             INNER JOIN winnovate_ideas idea ON idea.id = idea_lnk.winnovate_idea_id AND idea.published_at IS NOT NULL
                             WHERE groups.published_at IS NOT NULL
                             GROUP BY groups.id
@@ -57,7 +55,7 @@ module.exports = createCoreService(
     async findOneById(ctx) {
       const { document_id } = ctx.params;
       const query = `WITH idea AS (
-                            SELECT groups.id as group_id, COUNT(idea.id) as total_idea
+                            SELECT groups.id as group_id, COUNT(DISTINCT(idea.id)) as total_idea
                             FROM winnovate_groups groups
                             INNER JOIN winnovate_topics_groups_lnk topic_lnk ON topic_lnk.winnovate_group_id = groups.id
                             INNER JOIN winnovate_topics topic ON topic.id = topic_lnk.winnovate_topic_id AND topic.published_at IS NOT NULL

@@ -18,6 +18,12 @@
       "target": "api::winnovate-category.winnovate-category",
       "inversedBy": "ideas"
     },
+    "group": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::winnovate-group.winnovate-group",
+      "inversedBy": "ideas"
+    },
     "topic": {
       "type": "relation",
       "relation": "manyToOne",
@@ -29,6 +35,12 @@
       "relation": "manyToOne",
       "target": "api::winnovate-bu.winnovate-bu",
       "inversedBy": "ideas"
+    },
+    "bookmarks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::winnovate-idea-bookmark.winnovate-idea-bookmark",
+      "mappedBy": "idea"
     },
     "name": {
       "type": "text"
@@ -56,12 +68,6 @@
     },
     "solution": {
       "type": "text"
-    },
-    "bookmarks": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::winnovate-idea-bookmark.winnovate-idea-bookmark",
-      "mappedBy": "idea"
     },
     "priority": {
       "type": "integer",
