@@ -811,6 +811,30 @@ export interface ApiCustomAuthJwtToken extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiPagePage extends Struct.CollectionTypeSchema {
+  collectionName: 'pages';
+  info: {
+    singularName: 'page';
+    pluralName: 'pages';
+    displayName: 'page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::page.page'>;
+  };
+}
+
 export interface ApiUserAiAppUserAiApp extends Struct.CollectionTypeSchema {
   collectionName: 'user_ai_apps';
   info: {
@@ -1423,6 +1447,7 @@ declare module '@strapi/strapi' {
       'api::ai-model.ai-model': ApiAiModelAiModel;
       'api::ai-propensity-model.ai-propensity-model': ApiAiPropensityModelAiPropensityModel;
       'api::custom-auth.jwt-token': ApiCustomAuthJwtToken;
+      'api::page.page': ApiPagePage;
       'api::user-ai-app.user-ai-app': ApiUserAiAppUserAiApp;
       'api::winnovate-bu.winnovate-bu': ApiWinnovateBuWinnovateBu;
       'api::winnovate-category.winnovate-category': ApiWinnovateCategoryWinnovateCategory;

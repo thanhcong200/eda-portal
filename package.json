@@ -4,7 +4,8 @@
   "private": true,
   "description": "A Strapi application",
   "scripts": {
-    "build": "strapi build",
+    "plugin:build": "cd ./src/plugins/pages && strapi-plugin build",
+    "build": "npm run plugin:build && strapi build",
     "deploy": "strapi deploy",
     "develop": "strapi develop",
     "start": "strapi start",
@@ -21,13 +22,22 @@
     "dayjs": "^1.11.13",
     "pg": "8.8.0",
     "pngjs": "^7.0.0",
+    "@strapi/design-system": "2.0.0-rc.14",
+    "@strapi/icons": "2.0.0-rc.14",
+    "eslint": "8.50.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
     "styled-components": "^6.0.0",
     "xlsx": "^0.18.5"
   },
-  "devDependencies": {},
+  "peerDependencies": {
+    "@strapi/strapi": "^5.0.0"
+  },
+  "devDependencies": {
+    "@strapi/sdk-plugin": "^5.2.0",
+    "@strapi/strapi": "^5.0.0"
+  },
   "engines": {
     "node": ">=18.0.0 <=20.x.x",
     "npm": ">=6.0.0"
