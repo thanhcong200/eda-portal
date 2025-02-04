@@ -1,0 +1,66 @@
+version: "3"
+
+services:
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - common
+    restart: always
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - common
+    restart: always
+  
+  zookeeper:
+    container_name: zookeeper
+    image: zookeeper
+    hostname: zookeeper
+    ports:
+      - 2181:2181
+    networks:
+      - common
+
+  kafka:
+    container_name: kafka
+    image: ches/kafka
+    hostname: localhost
+    ports:
+      - 9092:9092
+    networks:
+      - common
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 10.10.10.122
+      ZOOKEEPER_IP: 10.10.10.122
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+
+  mqtt:
+    image: eclipse-mosquitto
+    container_name: mqtt
+    ports:
+      - 1883:1883
+      - 9001:9001
+
+networks:
+  common:
+
+volumes:
+  mongo-data:
+  redis-data:
+  zookeeper-data:
+  kafka-data:
+  mqtt-data:
