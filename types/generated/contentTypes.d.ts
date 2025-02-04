@@ -811,6 +811,154 @@ export interface ApiCustomAuthJwtToken extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiEdaWorkflowEdaWorkflow extends Struct.CollectionTypeSchema {
+  collectionName: 'eda_workflows';
+  info: {
+    singularName: 'eda-workflow';
+    pluralName: 'eda-workflows';
+    displayName: '[EDA] Workflow';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Schema.Attribute.String;
+    type: Schema.Attribute.Enumeration<['dpc', 'ai', 'bi']>;
+    workflow_status: Schema.Attribute.Enumeration<
+      ['draft', 'active', 'inactive']
+    > &
+      Schema.Attribute.DefaultTo<'draft'>;
+    nodes: Schema.Attribute.JSON;
+    edges: Schema.Attribute.JSON;
+    tickets: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::eda-workflow.workflow-ticket'
+    >;
+    logs: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::eda-workflow.workflow-log'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::eda-workflow.eda-workflow'
+    >;
+  };
+}
+
+export interface ApiEdaWorkflowTicketLog extends Struct.CollectionTypeSchema {
+  collectionName: 'ticket_logs';
+  info: {
+    singularName: 'ticket-log';
+    pluralName: 'ticket-logs';
+    displayName: '[Workflow]Ticket Log';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    data_change: Schema.Attribute.JSON;
+    ticket: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::eda-workflow.workflow-ticket'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::eda-workflow.ticket-log'
+    >;
+  };
+}
+
+export interface ApiEdaWorkflowWorkflowLog extends Struct.CollectionTypeSchema {
+  collectionName: 'workflow_logs';
+  info: {
+    singularName: 'workflow-log';
+    pluralName: 'workflow-logs';
+    displayName: 'Workflow Log';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    data_change: Schema.Attribute.JSON;
+    workflow: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::eda-workflow.eda-workflow'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::eda-workflow.workflow-log'
+    >;
+  };
+}
+
+export interface ApiEdaWorkflowWorkflowTicket
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'workflow_tickets';
+  info: {
+    singularName: 'workflow-ticket';
+    pluralName: 'workflow-tickets';
+    displayName: 'Workflow Ticket';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Schema.Attribute.String;
+    ticket_status: Schema.Attribute.Enumeration<
+      ['init', 'processing', 'completed', 'failed']
+    >;
+    nodes: Schema.Attribute.JSON;
+    edges: Schema.Attribute.JSON;
+    metadata: Schema.Attribute.JSON;
+    workflow: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::eda-workflow.eda-workflow'
+    >;
+    logs: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::eda-workflow.ticket-log'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::eda-workflow.workflow-ticket'
+    >;
+  };
+}
+
 export interface ApiUserAiAppUserAiApp extends Struct.CollectionTypeSchema {
   collectionName: 'user_ai_apps';
   info: {
@@ -1229,6 +1377,10 @@ declare module '@strapi/strapi' {
       'api::ai-model.ai-model': ApiAiModelAiModel;
       'api::ai-propensity-model.ai-propensity-model': ApiAiPropensityModelAiPropensityModel;
       'api::custom-auth.jwt-token': ApiCustomAuthJwtToken;
+      'api::eda-workflow.eda-workflow': ApiEdaWorkflowEdaWorkflow;
+      'api::eda-workflow.ticket-log': ApiEdaWorkflowTicketLog;
+      'api::eda-workflow.workflow-log': ApiEdaWorkflowWorkflowLog;
+      'api::eda-workflow.workflow-ticket': ApiEdaWorkflowWorkflowTicket;
       'api::user-ai-app.user-ai-app': ApiUserAiAppUserAiApp;
       'admin::permission': AdminPermission;
       'admin::user': AdminUser;

@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "workflow_tickets",
+  "info": {
+    "singularName": "workflow-ticket",
+    "pluralName": "workflow-tickets",
+    "displayName": "Workflow Ticket",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "ticket_status": {
+      "type": "enumeration",
+      "enum": [
+        "init",
+        "processing",
+        "completed",
+        "failed"
+      ]
+    },
+    "nodes": {
+      "type": "json"
+    },
+    "edges": {
+      "type": "json"
+    },
+    "metadata": {
+      "type": "json"
+    },
+    "workflow": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::eda-workflow.eda-workflow",
+      "inversedBy": "tickets"
+    },
+    "logs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::eda-workflow.ticket-log",
+      "mappedBy": "ticket"
+    }
+  }
+}

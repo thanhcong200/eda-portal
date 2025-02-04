@@ -1,0 +1,53 @@
+{
+  "kind": "collectionType",
+  "collectionName": "workflows",
+  "info": {
+    "singularName": "workflows",
+    "pluralName": "workflows",
+    "displayName": "[Workflow] Workflow"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "dpc",
+        "ai",
+        "bi"
+      ]
+    },
+    "workflow_status": {
+      "type": "enumeration",
+      "enum": [
+        "draft",
+        "active",
+        "inactive"
+      ],
+      "default": "draft"
+    },
+    "nodes": {
+      "type": "json"
+    },
+    "edges": {
+      "type": "json"
+    },
+    "tickets": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::workflows.workflow-ticket",
+      "mappedBy": "workflow"
+    },
+    "logs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::workflows.workflow-log",
+      "mappedBy": "workflow"
+    }
+  }
+}

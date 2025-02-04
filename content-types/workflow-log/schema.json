@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "workflow_logs",
+  "info": {
+    "singularName": "workflow-log",
+    "pluralName": "workflow-logs",
+    "displayName": "Workflow Log",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "data_change": {
+      "type": "json"
+    },
+    "workflow": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::workflows.workflows",
+      "inversedBy": "logs"
+    }
+  }
+}

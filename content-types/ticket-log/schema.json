@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ticket_logs",
+  "info": {
+    "singularName": "ticket-log",
+    "pluralName": "ticket-logs",
+    "displayName": "[Workflow]Ticket Log"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "data_change": {
+      "type": "json"
+    },
+    "ticket": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::workflows.workflow-ticket",
+      "inversedBy": "logs"
+    }
+  }
+}

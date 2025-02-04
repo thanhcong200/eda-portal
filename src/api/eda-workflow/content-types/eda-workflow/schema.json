@@ -1,0 +1,53 @@
+{
+  "kind": "collectionType",
+  "collectionName": "eda_workflows",
+  "info": {
+    "singularName": "eda-workflow",
+    "pluralName": "eda-workflows",
+    "displayName": "[EDA] Workflow"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "dpc",
+        "ai",
+        "bi"
+      ]
+    },
+    "workflow_status": {
+      "type": "enumeration",
+      "enum": [
+        "draft",
+        "active",
+        "inactive"
+      ],
+      "default": "draft"
+    },
+    "nodes": {
+      "type": "json"
+    },
+    "edges": {
+      "type": "json"
+    },
+    "tickets": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::eda-workflow.workflow-ticket",
+      "mappedBy": "workflow"
+    },
+    "logs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::eda-workflow.workflow-log",
+      "mappedBy": "workflow"
+    }
+  }
+}
