@@ -12,6 +12,12 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "ai_app": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::ai-app.ai-app",
+      "mappedBy": "ai_app_api"
+    },
     "name": {
       "type": "string",
       "required": true
@@ -41,12 +47,6 @@
     },
     "short_desc": {
       "type": "text"
-    },
-    "ai_app": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::ai-app.ai-app",
-      "mappedBy": "ai_app_api"
     }
   }
 }

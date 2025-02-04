@@ -19,12 +19,14 @@
     "axios": "^1.7.7",
     "better-sqlite3": "^11.3.0",
     "dayjs": "^1.11.13",
+    "lodash": "^4.17.21",
     "pg": "8.8.0",
     "pngjs": "^7.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
-    "styled-components": "^6.0.0"
+    "styled-components": "^6.0.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {},
   "engines": {

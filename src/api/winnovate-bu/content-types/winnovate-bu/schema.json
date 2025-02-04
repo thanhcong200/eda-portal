@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "winnovate_bus",
+  "info": {
+    "singularName": "winnovate-bu",
+    "pluralName": "winnovate-bus",
+    "displayName": "Winnovate BU",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "groups": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::winnovate-group.winnovate-group",
+      "inversedBy": "bus"
+    },
+    "ideas": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::winnovate-idea.winnovate-idea",
+      "mappedBy": "bu"
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

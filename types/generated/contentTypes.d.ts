@@ -482,6 +482,10 @@ export interface PluginUsersPermissionsUser
       'oneToMany',
       'api::user-ai-app.user-ai-app'
     >;
+    bookmarks: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::winnovate-idea-bookmark.winnovate-idea-bookmark'
+    >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -509,9 +513,6 @@ export interface ApiAiAppAiApp extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    name: Schema.Attribute.String & Schema.Attribute.Required;
-    short_desc: Schema.Attribute.Text;
-    image: Schema.Attribute.Media<'files' | 'images'>;
     ai_app_api: Schema.Attribute.Relation<
       'oneToOne',
       'api::ai-app-api.ai-app-api'
@@ -524,6 +525,13 @@ export interface ApiAiAppAiApp extends Struct.CollectionTypeSchema {
       'manyToOne',
       'api::ai-app-category.ai-app-category'
     >;
+    user: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::user-ai-app.user-ai-app'
+    >;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    short_desc: Schema.Attribute.Text;
+    image: Schema.Attribute.Media<'files' | 'images'>;
     bu: Schema.Attribute.String & Schema.Attribute.Required;
     scope: Schema.Attribute.String;
     po: Schema.Attribute.String & Schema.Attribute.Required;
@@ -532,10 +540,6 @@ export interface ApiAiAppAiApp extends Struct.CollectionTypeSchema {
     total_like: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     total_quantity_used: Schema.Attribute.Integer &
       Schema.Attribute.DefaultTo<0>;
-    user: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::user-ai-app.user-ai-app'
-    >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -560,6 +564,7 @@ export interface ApiAiAppApiAiAppApi extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    ai_app: Schema.Attribute.Relation<'oneToOne', 'api::ai-app.ai-app'>;
     name: Schema.Attribute.String & Schema.Attribute.Required;
     endpoint: Schema.Attribute.String & Schema.Attribute.Required;
     method: Schema.Attribute.Enumeration<['POST', 'GET']> &
@@ -568,7 +573,6 @@ export interface ApiAiAppApiAiAppApi extends Struct.CollectionTypeSchema {
     token_value: Schema.Attribute.Text & Schema.Attribute.Required;
     token_key: Schema.Attribute.String & Schema.Attribute.Required;
     short_desc: Schema.Attribute.Text;
-    ai_app: Schema.Attribute.Relation<'oneToOne', 'api::ai-app.ai-app'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -597,10 +601,10 @@ export interface ApiAiAppCategoryAiAppCategory
     draftAndPublish: true;
   };
   attributes: {
+    ai_apps: Schema.Attribute.Relation<'oneToMany', 'api::ai-app.ai-app'>;
     name: Schema.Attribute.String;
     image: Schema.Attribute.Media<'images' | 'files'> &
       Schema.Attribute.Required;
-    ai_apps: Schema.Attribute.Relation<'oneToMany', 'api::ai-app.ai-app'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -629,13 +633,13 @@ export interface ApiAiAppHistoryAiAppHistory
     draftAndPublish: true;
   };
   attributes: {
-    result: Schema.Attribute.JSON;
-    origin_url: Schema.Attribute.String & Schema.Attribute.Required;
     user: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.user'
     >;
     ai_app: Schema.Attribute.Relation<'manyToOne', 'api::ai-app.ai-app'>;
+    result: Schema.Attribute.JSON;
+    origin_url: Schema.Attribute.String & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -696,6 +700,10 @@ export interface ApiAiModelAiModel extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    propensities: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::ai-propensity-model.ai-propensity-model'
+    >;
     name: Schema.Attribute.String & Schema.Attribute.Required;
     impact: Schema.Attribute.Text & Schema.Attribute.Required;
     purpose: Schema.Attribute.Text & Schema.Attribute.Required;
@@ -712,10 +720,6 @@ export interface ApiAiModelAiModel extends Struct.CollectionTypeSchema {
       ]
     > &
       Schema.Attribute.Required;
-    propensities: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::ai-propensity-model.ai-propensity-model'
-    >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -744,15 +748,15 @@ export interface ApiAiPropensityModelAiPropensityModel
     draftAndPublish: true;
   };
   attributes: {
+    ai_models: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::ai-model.ai-model'
+    >;
     name: Schema.Attribute.String & Schema.Attribute.Required;
     scope: Schema.Attribute.Text & Schema.Attribute.Required;
     po: Schema.Attribute.String & Schema.Attribute.Required;
     icon: Schema.Attribute.Media<'images' | 'files'> &
       Schema.Attribute.Required;
-    ai_models: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::ai-model.ai-model'
-    >;
     html_url: Schema.Attribute.String;
     bu: Schema.Attribute.String & Schema.Attribute.Required;
     prosensity_status: Schema.Attribute.Enumeration<
@@ -990,6 +994,249 @@ export interface ApiUserAiAppUserAiApp extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::user-ai-app.user-ai-app'
+    >;
+  };
+}
+
+export interface ApiWinnovateBuWinnovateBu extends Struct.CollectionTypeSchema {
+  collectionName: 'winnovate_bus';
+  info: {
+    singularName: 'winnovate-bu';
+    pluralName: 'winnovate-bus';
+    displayName: 'Winnovate BU';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    groups: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::winnovate-group.winnovate-group'
+    >;
+    ideas: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::winnovate-idea.winnovate-idea'
+    >;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::winnovate-bu.winnovate-bu'
+    >;
+  };
+}
+
+export interface ApiWinnovateCategoryWinnovateCategory
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'winnovate_categories';
+  info: {
+    singularName: 'winnovate-category';
+    pluralName: 'winnovate-categories';
+    displayName: 'Winnovate Category';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    ideas: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::winnovate-idea.winnovate-idea'
+    >;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::winnovate-category.winnovate-category'
+    >;
+  };
+}
+
+export interface ApiWinnovateGroupWinnovateGroup
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'winnovate_groups';
+  info: {
+    singularName: 'winnovate-group';
+    pluralName: 'winnovate-groups';
+    displayName: 'Winnovate Group';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    topics: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::winnovate-topic.winnovate-topic'
+    >;
+    bus: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::winnovate-bu.winnovate-bu'
+    >;
+    ideas: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::winnovate-idea.winnovate-idea'
+    >;
+    name: Schema.Attribute.String;
+    color: Schema.Attribute.String;
+    icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::winnovate-group.winnovate-group'
+    >;
+  };
+}
+
+export interface ApiWinnovateIdeaWinnovateIdea
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'winnovate_ideas';
+  info: {
+    singularName: 'winnovate-idea';
+    pluralName: 'winnovate-ideas';
+    displayName: 'Winnovate Idea';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    category: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::winnovate-category.winnovate-category'
+    >;
+    group: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::winnovate-group.winnovate-group'
+    >;
+    topic: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::winnovate-topic.winnovate-topic'
+    >;
+    bu: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::winnovate-bu.winnovate-bu'
+    >;
+    bookmarks: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::winnovate-idea-bookmark.winnovate-idea-bookmark'
+    >;
+    name: Schema.Attribute.Text;
+    email: Schema.Attribute.Text;
+    score: Schema.Attribute.Decimal;
+    target_customer: Schema.Attribute.Text;
+    desc_target_customer: Schema.Attribute.Text;
+    problem_statement: Schema.Attribute.Text;
+    idea_owner: Schema.Attribute.Text;
+    pdf_url: Schema.Attribute.Text;
+    solution: Schema.Attribute.Text;
+    priority: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<2>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::winnovate-idea.winnovate-idea'
+    >;
+  };
+}
+
+export interface ApiWinnovateIdeaBookmarkWinnovateIdeaBookmark
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'winnovate_idea_bookmarks';
+  info: {
+    singularName: 'winnovate-idea-bookmark';
+    pluralName: 'winnovate-idea-bookmarks';
+    displayName: 'Winnovate Idea Bookmark';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    idea: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::winnovate-idea.winnovate-idea'
+    >;
+    user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    is_save: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::winnovate-idea-bookmark.winnovate-idea-bookmark'
+    >;
+  };
+}
+
+export interface ApiWinnovateTopicWinnovateTopic
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'winnovate_topics';
+  info: {
+    singularName: 'winnovate-topic';
+    pluralName: 'winnovate-topics';
+    displayName: 'Winnovate Topic';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    groups: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::winnovate-group.winnovate-group'
+    >;
+    ideas: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::winnovate-idea.winnovate-idea'
+    >;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    color: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::winnovate-topic.winnovate-topic'
     >;
   };
 }
@@ -1382,6 +1629,12 @@ declare module '@strapi/strapi' {
       'api::eda-workflow.workflow-log': ApiEdaWorkflowWorkflowLog;
       'api::eda-workflow.workflow-ticket': ApiEdaWorkflowWorkflowTicket;
       'api::user-ai-app.user-ai-app': ApiUserAiAppUserAiApp;
+      'api::winnovate-bu.winnovate-bu': ApiWinnovateBuWinnovateBu;
+      'api::winnovate-category.winnovate-category': ApiWinnovateCategoryWinnovateCategory;
+      'api::winnovate-group.winnovate-group': ApiWinnovateGroupWinnovateGroup;
+      'api::winnovate-idea.winnovate-idea': ApiWinnovateIdeaWinnovateIdea;
+      'api::winnovate-idea-bookmark.winnovate-idea-bookmark': ApiWinnovateIdeaBookmarkWinnovateIdeaBookmark;
+      'api::winnovate-topic.winnovate-topic': ApiWinnovateTopicWinnovateTopic;
       'admin::permission': AdminPermission;
       'admin::user': AdminUser;
       'admin::role': AdminRole;
