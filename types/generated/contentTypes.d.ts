@@ -823,7 +823,7 @@ export interface ApiEdaWorkflowEdaWorkflow extends Struct.CollectionTypeSchema {
     displayName: '[EDA] Workflow';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     name: Schema.Attribute.String;
@@ -865,7 +865,7 @@ export interface ApiEdaWorkflowTicketLog extends Struct.CollectionTypeSchema {
     displayName: '[Workflow]Ticket Log';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     data_change: Schema.Attribute.JSON;
@@ -897,7 +897,7 @@ export interface ApiEdaWorkflowWorkflowLog extends Struct.CollectionTypeSchema {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     data_change: Schema.Attribute.JSON;
@@ -930,7 +930,7 @@ export interface ApiEdaWorkflowWorkflowTicket
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     name: Schema.Attribute.String;
